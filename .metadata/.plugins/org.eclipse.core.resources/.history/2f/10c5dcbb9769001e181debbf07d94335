@@ -1,0 +1,71 @@
+package com.training.org;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCOperations {
+	private Connection conn;
+	private String username;
+	private String password;
+	private String query;
+	private Statement stmt;
+	
+	public JDBCOperations() {
+		System.out.println("Default constructor of JDBCOperations is called");
+		conn=null;
+		username="";
+		password="";
+		query="";
+		
+	}
+	public static Connection mysqlConnection(String username,String password) throws SQLException {
+		Connection conn=null;
+		conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/org?autoReconnect=true&useSSL=false",username,password);
+		return conn;
+	}
+	
+	public JDBCOperations(String username,String password) throws SQLException{
+		this.username=username;
+		this.password=password;
+		this.conn=JDBCOperations.mysqlConnection(username, password);
+		System.out.println(this.conn);
+		stmt=conn.createStatement();
+		query="";
+	}
+	
+	public void CreateDatabase(String name) throws SQLException {
+		 stmt=conn.createStatement();
+		//send sql command
+		String query="create database "+name;
+		stmt.executeUpdate(query);
+		System.out.println("Database Created");
+		}
+	
+	public void CreateTable(String query) throws SQLException {
+		stmt=conn.createStatement();
+		//send sql command
+		
+		System.out.println(stmt.executeUpdate(query));
+		System.out.println("Table is Created");
+		}
+	
+	public void insertData() throws SQLException {
+		//stmt=conn.createStatement();	
+		stmt.execute("insert into jdbc values(101, 'nilam', 40000)");
+		stmt.execute("insert into jdbc values(102, 'yash', 20000)");
+		stmt.execute("insert into jdbc values(103, 'ashu', 50000)");
+		stmt.execute("insert into jdbc values(104, 'nisha', 30000)");
+
+	}
+	
+	public void closemyConnection() throws SQLException{
+		if(this.conn!=null) {
+			this.conn.close();
+			System.out.println("Connection is closing..");
+		}else {
+			System.out.println("Cant able to close connection");
+		}
+	}
+}

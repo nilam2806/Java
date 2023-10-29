@@ -1,0 +1,11 @@
+package com.training.org;
+
+import com.training.org.NestedInnerClassExample.InnerClass;
+
+public class MainClass {
+	public static void main(String[] args) {
+		InnerClass obj1=new NestedInnerClassExample().new InnerClass();
+		obj1.show();
+	}
+
+}

@@ -1,0 +1,10 @@
+package com.training.org;
+
+public class NestedInnerClassExample {
+	class InnerClass{
+		public void show() {
+			System.out.println("In a nested class method");
+		}
+	}
+
+}

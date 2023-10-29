@@ -1,0 +1,23 @@
+package com.training.org;
+
+public class NestedInnerClassExample {
+	private int message;
+	class InnerClass{
+		public InnerClass() {
+			System.out.println("Default constructor of inner class is called");
+		}
+		public void show() {
+			System.out.println("In a nested class method");
+		}
+	}
+	
+	public NestedInnerClassExample() {
+		System.out.println("Default constructor of NestedInnerClassExample is called that is outer class");
+	}
+	
+
+	public void show() {
+		System.out.println("this is show in a outer class");
+	}
+	
+}
