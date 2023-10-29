@@ -1,0 +1,316 @@
+Nested Inner Class
+Method Local Inner Classes
+Static Nested Classes
+Anonymous Inner Classes
+
+
+
+
+In Java, inner class refers to the class that is declared inside class or interface which were mainly introduced, to sum up, 
+same logically relatable classes as Java is purely object-oriented so bringing it closer to the real world. Now geeks you must be 
+wondering why they were introduced? 
+
+*************************************************************************************************************************************
+
+package com.training.org;
+
+public class NestedInnerClassExample {
+   // Simple nested inner class
+   class InnerClass {
+        // show() method of inner class
+       public void show(){
+            // Print statement
+           System.out.println("In a nested class method");
+       }
+   }
+
+}
+***********************************
+package com.training.org;
+
+import com.training.org.NestedInnerClassExample.InnerClass;
+
+public class MainClass {
+	public static void main(String[] args) {
+		InnerClass obj1=new NestedInnerClassExample().new InnerClass();
+		obj1.show();
+	}
+
+}
+***************************************************************
+
+How can i call two constructors at same time?
+Using Inner class
+Or Using Inheritance also
+
+**************************************************************************************************************
+package com.training.org;
+
+public class NestedInnerClassExample {
+	
+	private String message;
+	
+	static int outerNum1=100;
+	
+   // Simple nested inner class
+   class InnerClass {
+	   
+	   private int num1;
+	   
+	   public InnerClass() {
+		   System.out.println("Default constructor of InnerClass is called");
+	   }
+	   
+	   public InnerClass(int num1) {
+		   System.out.println("Parameterised constructor of InnerClass is called");
+		   this.num1=num1;
+	   }
+	   
+       public void show(){
+            // Print statement
+    	   NestedInnerClassExample innerObj=new NestedInnerClassExample("New message");
+    	   innerObj.show();
+    	   
+           System.out.println("In a nested class method"+this.num1+""+message); 
+       }
+   }
+   
+   public NestedInnerClassExample() {
+	   System.out.println("Default Constructor of NestedInnerClassExample");
+   }
+
+   public NestedInnerClassExample(String message) {
+	   System.out.println("Parameterised Constructor of NestedInnerClassExample");
+	   this.message=message;
+   }   
+   public void show() {
+	   System.out.println("This is show method from OuterClass"+this.message);
+   }
+
+}
+************************************************************************
+package com.training.org;
+
+import com.training.org.NestedInnerClassExample.InnerClass;
+
+public class MainClass {
+	public static void main(String[] args) {
+		
+		InnerClass obj1=new NestedInnerClassExample("myMessage").new InnerClass(100);
+		obj1.show();
+		
+		
+//		NestedInnerClassExample obj2=new NestedInnerClassExample();
+//		obj2.show();
+		
+		
+	}
+
+}
+**************************************************************************************************************************
+// Java Program to Illustrate Inner class can be
+// declared within a method of outer class 
+ 
+// Class 1
+// Outer class
+class Outer {
+ 
+    // Method inside outer class
+    void outerMethod()
+    {
+ 
+        // Print statement
+        System.out.println("inside outerMethod");
+ 
+        // Class 2
+        // Inner class
+        // It is local to outerMethod()
+        class Inner {
+ 
+            // Method defined inside inner class
+            void innerMethod()
+            {
+ 
+                // Print statement whenever inner class is
+                // called
+                System.out.println("inside innerMethod");
+            }
+        }
+ 
+        // Creating object of inner class
+        Inner y = new Inner();
+ 
+        // Calling over method defined inside it
+        y.innerMethod();
+    }
+}
+*************************************************************
+
+// Class 3
+// Main class
+class MainClass {
+ 
+    // Main driver method
+    public static void main(String[] args)
+    {
+ 
+        // Creating object of outer class inside main()
+        // method
+        Outer x = new Outer();
+ 
+        // Calling over the same method
+        // as we did for inner class above
+        x.outerMethod();
+    }
+}
+************************************************************************************
+
+class Outer {
+   void outerMethod() {
+      int x = 98;
+      System.out.println("inside outerMethod");
+      class Inner {
+         void innerMethod() {
+            System.out.println("x= "+x);
+         }
+      }
+      Inner y = new Inner();
+      y.innerMethod();
+   }
+}
+class MethodLocalVariableDemo {
+   public static void main(String[] args) {
+      Outer x=new Outer();
+      x.outerMethod();
+   }
+}
+************************************************************************
+
+// Java Program to Illustrate Static Nested Classes
+ 
+// Importing required classes
+import java.util.*;
+ 
+// Class 1
+
+ 
+// Class 3
+// Main class
+class MainClass {
+ 
+    // Main driver method
+    public static void main(String args[])
+    {
+ 
+        // Calling method static display method rather than an instance of that class.
+        Outer.Inner.display();
+    }
+}
+
+
+
+// Outer class
+class Outer {
+ 
+    // Method
+    private static void outerMethod()
+    {
+ 
+        // Print statement
+        System.out.println("inside outerMethod");
+    }
+ 
+    // Class 2
+    // Static inner class
+    static class Inner {
+ 
+        public static void display()
+        {
+ 
+            // Print statement
+            System.out.println("inside inner class Method");
+ 
+            // Calling method inside main() method
+            outerMethod();
+        }
+    }
+}
+*****************************************************************************************************
+package com.training.org;
+class Demo {
+
+	// Method of helper class
+	void show()
+	{
+		// Print statement
+		System.out.println(
+				"i am in show method of super class");
+	}
+}
+
+
+public class MainClass {
+
+	//  An anonymous class with Demo as base class
+	 static Demo d = new Demo() {
+		// Method 1
+		// show() method
+		void show()
+		{
+			// Calling method show() via super keyword
+			// which refers to parent class
+			super.show();
+
+			// Print statement
+			System.out.println("i am in Flavor1Demo class");
+		}
+	};
+
+		public static void main(String[] args) {
+			d.show();
+
+		}
+
+}
+*****************************************************************************************
+
+package com.training.org;
+
+//Java Program to Illustrate Anonymous Inner Classes
+//Declaration Without Any Name
+//As an implementer of Specified interface
+
+//Interface
+interface Hello {
+
+ // Method defined inside interface
+ void show();
+}
+
+
+
+
+//Main class
+public class MainClass{
+
+ // Class implementing interface
+ static Hello h = new Hello() {
+     // Method 1
+     // show() method inside main class
+     public void show()
+     {
+         // Print statement
+         System.out.println("i am in anonymous class");
+     }
+ };
+
+ // Method 2
+ // Main driver method
+ public static void main(String[] args)
+ {
+     // Calling show() method inside main() method
+     h.show();
+ }
+}
+
+*********************************************************************************

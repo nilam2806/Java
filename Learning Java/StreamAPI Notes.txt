@@ -1,0 +1,413 @@
+Functional-style operations: Streams support functional-style operations like map, filter, and reduce, which enable developers to express data processing logic in a more declarative
+ and readable way.
+Pipelining: Streams allow for chaining multiple operations together to form a pipeline, where the output of one operation becomes the input of the next. This enables efficient
+ and compact code without the need for intermediate collections.
+Lazy evaluation: Streams employ lazy evaluation, meaning that intermediate operations are not executed until a terminal operation is invoked. This improves efficiency by avoiding 
+unnecessary computation.
+Parallel processing: Streams can be processed in parallel, leveraging multi-core architectures to improve performance for large datasets. Parallel streams automatically divide the 
+data into multiple chunks and process them concurrently.
+Streams in Java provide a powerful and efficient way to process data by applying various sequential and parallel aggregate operations. The Stream API in Java 8 introduced the 
+concept of streams and stream classes in Java, which offer specialized functionality for manipulating and transforming data. Developers can utilize the Stream API in Java to 
+write code that is more concise, expressive, and efficient.
+The Stream API in Java provides a rich set of operations that can be applied to streams, such as filtering, mapping, and reducing. The Stream API in Java provides a high-level 
+abstraction for working with streams and offers a wide range of operations to manipulate and process data.
+
+
+
+Stream is a sequence of objects that supports various sequential and parallel aggregate operations. Streams in Java, including the Stream API in Java 8, provide a powerful and 
+efficient way to process data in a functional and declarative manner. The Stream API offers a set of stream classes in Java that allow for the manipulation and transformation of data.
+Understanding streams in Java is essential for modern Java developers to write efficient and expressive code.
+
+
+package com.training.org;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class FilterExample {
+	public static void main(String[] args) {
+		
+		
+		System.out.println(Stream.of(1, 2, 3, 4, 5)
+				.filter(x -> x % 2 == 0)
+				.collect(Collectors.toList()));
+
+//		List<String> names = Arrays.asList("John", "Jane", "Adam", "Eve", "Mike");
+//	
+//		List<String> filteredNames = names.stream()
+//		                                .filter(name -> name.startsWith("J"))
+//		                                .map(String::toUpperCase)
+//		                                .collect(Collectors.toList());
+//
+//		System.out.println(filteredNames); 
+
+	}
+
+}
+
+***********************************************************************************************************************
+
+Intermediate operations return a stream as the output, and intermediate operations are not executed until a terminal operation is invoked on the stream. This is called lazy 
+evaluation, and it is discussed in detail in the later section (Lazy Evaluation).
+filter()
+The filter() method returns a stream with the stream's elements that match the given predicate. Predicate is a functional interface in Java that accepts a single input and can
+ return a boolean value.
+
+
+public class Main {
+    public static void main(String[] args) {
+        final List<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+
+        final List<Integer> ans = list.stream()
+                .filter(value -> value % 2 == 0)
+                .collect(Collectors.toList());
+
+        System.out.println(Arrays.toString(ans.toArray()));
+    }
+}
+
+***************************************************************************
+
+
+        final List<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+
+        final List<Integer> ans = list.stream()
+                .map(value -> value * 10)
+                .collect(Collectors.toList());
+
+        System.out.println(Arrays.toString(ans.toArray()));
+***********************************************************************************************
+final List<Integer> list = new ArrayList<>(Arrays.asList(5, 1, 3, 4, 2));
+
+        System.out.println("Ascending Order");
+        list.stream().sorted()
+            .forEach(System.out::println);
+
+        System.out.println("\nDescending Order");
+        list.stream().sorted(Comparator.reverseOrder())
+            .forEach(System.out::println);
+***************************************************************************************************************
+
+final List<Integer> list = new ArrayList<>(Arrays.asList(1, 1, 2, 2, 3));
+
+        final List<Integer> ans = list.stream()
+                .distinct()
+                .collect(Collectors.toList());
+
+        System.out.println("Distinct List: " + Arrays.toString(ans.toArray()));
+*************************************************************************************************************
+
+final List<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+
+        final List<Integer> ans = list.stream()
+                .filter(value -> value % 2 == 0)
+                .peek(value -> System.out.println("Filtered " + value))
+                .map(value -> value * 10)
+                .collect(Collectors.toList());
+
+        System.out.println(Arrays.toString(ans.toArray()));
+*****************************************************************************************
+
+
+The limit() method returns a stream with the stream elements limited to the provided size.
+
+Example
+
+public class Main {
+    public static void main(String[] args) {
+        final List<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+
+        final List<Integer> ans = list.stream()
+                .limit(3)
+                .collect(Collectors.toList());
+
+        System.out.println("Limited List: " + Arrays.toString(ans.toArray()));
+    }
+}
+***********************************************************************************************
+
+ final List<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+
+        final List<Integer> ans = list.stream()
+                .skip(2)
+                .collect(Collectors.toList());
+
+        System.out.println("Skipped List: " + Arrays.toString(ans.toArray()));
+
+
+*********************************************************************************************************************************************************
+
+Intermediate operations transform or filter elements in a stream, returning a new stream. Examples: filter, map, distinct, sorted, limit. 
+
+Terminal operations produce a result or side effect, marking the end of a stream. Examples: forEach, collect, reduce, count, min, max, anyMatch, allMatch, noneMatch.
+
+
+Terminal operations produce the results of the stream after all the intermediate operations are applied, and we can no longer use the stream once the terminal operation is performed. forEach()
+
+The forEach() method iterates and performs the specified action for each stream element. For parallel stream, it doesn't guarantee to maintain the order of the stream.
+
+Example
+
+public class Main {
+    public static void main(String[] args) {
+        final List<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+
+        list.stream().forEach(System.out::println);
+    }
+}
+
+*********************************************************************************************************
+
+ // Creating a File object 
+        File fileName = new File("c:\\DATA\\myfile.txt"); 
+  
+        // Create a Stream of string type 
+        // using the lines() method to 
+        // read one line at a time from the text file 
+        Stream<String> text = Files.lines(fileName.toPath()); 
+  
+        
+        text.parallel().forEach(System.out::println);
+       
+        
+        // Creating parallel streams using parallel() method 
+        // later using forEach() to print on console 
+//        text.parallel().forEach(System.out::println); 
+  
+        // Closing the Stream 
+        // using close() method 
+        text.close(); 
+
+************************************************
+final List<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+		
+		 list.parallelStream().forEach(System.out::println);
+		 
+*********************************************************************************************
+
+The forEachOrdered() method iterates and performs the specified action for each stream element. This is similar to the forEach() method, and the only difference is that it
+ maintains the order when the stream is parallel.
+
+public class Main {
+    public static void main(String[] args) {
+        Stream.of("A","B","C")
+                .parallel()
+                .forEach(x -> System.out.println("forEach: " + x));
+
+        Stream.of("A","B","C")
+                .parallel()
+                .forEachOrdered(x -> System.out.println("forEachOrdered: " + x));
+    }
+}
+*************************************************************************************************
+
+final List<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+//		list.parallelStream().forEach(System.out::println);
+        final int ans = list.stream().reduce(0, (value, sum) ->{ System.out.println("sum "+sum+" value "+value);sum += value;return sum;});
+
+		 
+		 System.out.println("ANS"+ans);
+
+*********************************************************************************************************
+
+The reduce() method performs a reduction on the elements of the stream and returns the value.
+
+Example
+
+public class Main {
+    public static void main(String[] args) {
+        final List<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+
+        final int ans = list.stream().reduce(0, (value, sum) -> sum += value);
+
+        System.out.println("Sum: " + ans);
+    }
+}
+**************************************************************************************************
+
+Stream API Exercises : Part I
+Q.1) Find the most populated city of each continent
+
+Q.2) Find the number of movies of each director
+
+Q.3) Find the number of genres of each director's movies
+
+Q.4) Find the highest populated capital city
+
+Q.5) Find the highest populated capital city of each continent
+
+Q.6) Sort the countries by number of their cities in descending order
+
+Q.7) Find the list of movies having the genres "Drama" and "Comedy" only
+
+Q.8) Group the movies by the year and list them
+
+Q.9) Sort the countries by their population densities in descending order ignoring zero population countries
+
+Q.10) Find the richest country of each continent with respect to their GNP (Gross National Product) values.
+
+Q.11) Find the minimum, the maximum and the average population of world countries.
+
+Q.12) Find the minimum, the maximum and the average population of each continent.
+
+Q.13) Find the countries with the minimum and the maximum population.
+
+Q.14) Find the countries of each continent with the minimum and the maximum population.
+
+Q.15) Group the countries by continent, and then sort the countries in continent by number of cities in each continent.
+
+Q.16) Find the cities with the minimum and the maximum population in countries.
+
+Q.17) Find the minimum, the maximum, the average, and the standard deviation of GNP values.
+
+Q.18) Find the year where the maximum number of movie is available
+
+******************************************************************************************************************************
+
+            Logging in Java requires using one or more logging frameworks. These frameworks provide the objects, methods, and configuration necessary to create and send log messages. 
+Java provides a built-in framework in the java.util.logging package. There are also many third-party frameworks, including Log4j, Logback, andtinylog. You can also use an abstraction layer, such as
+SLF4J and Apache Commons Logging, which decouples your code from the underlying logging framework so you can switch between logging frameworks on the fly.
+           Choosing a logging solution depends on various factors, such as the available features, the complexity of your logging needs, ease of use, and personal choice. Another factor to 
+consider is compatibility with other projects. For example, Apache Tomcat is hard-coded to use java.util.logging, although you can redirect logs to an alternative framework. 
+You'll need to account for your environment and dependencies when choosing a framework.
+For most developers, Log4j is a good choice as it provides solid performance, is extremely configurable, and has a highly active development community. If you plan on integrating 
+other Java libraries or applications into your own, consider using SLF4J with the Log4j binding for the greatest compatibility.
+
+*****************************************************************************************************************************************************************************
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.training.org</groupId>
+    <artifactId>LoggingExample</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>20</maven.compiler.source>
+        <maven.compiler.target>20</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+            <version>2.20.0</version>
+        </dependency>
+    </dependencies>
+</project>    
+*********************************************************************************************************************************
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1} - %m%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="console"/>
+        </Root>
+    </Loggers>
+</Configuration>
+*****************************************************************************************************************
+
+The log level is a fundamental concept in logging, no matter which logging framework you use. It allows you to tag log records according to their severity or importance. SLF4J offers the following log levels by default:
+
+TRACE: typically used to provide detailed diagnostic information that can be used for troubleshooting and debugging. Compare to DEBUG messages, TRACE messages are more fine-grained and verbose.
+DEBUG: used to provide information that can be used to diagnose issues especially those related to program state.
+INFO: used to record events that indicate that program is functioning normally.
+WARN: used to record potential issues in your application. They may not be critical but should be investigated.
+ERROR: records unexpected errors that occur during the operation of your application. In most cases, the error should be addressed as soon as possible to prevent further problems or outages.
+**************************************************************************************************************************************************
+
+logger.trace("Entering method doSomething with parameters (param1=5, param2=10)");
+logger.debug("Processing request for user ID 12345");
+logger.info("user with ID '1234' just signed in");
+logger.warn("Potential security vulnerability detected in user input: '...'");
+logger.error("Failed to connect to database: java.sql.SQLException: Connection refused");
+*******************************************************************************************************************************
+
+Log4j offers a convenient feature that allows you to log in different formats, called layouts . It enables you to format the log records into CSV, JSON, XML, YAML, etc. 
+The most commonly used format is JSON.
+
+To log in JSON format using Log4j, make sure you include the jackson-databind dependency in your pom.xml file, and then create a new JsonLayout in the configuration:
+
+
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.15.3</version>
+</dependency>
+******************************************************************************************************
+You can also use the JsonTemplateLayout instead, which allows you to specify a template that the JSON output should follow. Ensure you have the log4j-layout-template-json dependency in your pom.xml, then edit the configuration file:
+
+<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-layout-template-json -->
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-layout-template-json</artifactId>
+    <version>2.21.1</version>
+</dependency>
+
+
+**********************************************************************************************************************
+import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
+
+public class MainLoggingExample {
+	public static void main(String[] args) throws SecurityException, IOException {
+		
+		FileHandler fileHandler = new FileHandler("mylog.log");
+		SimpleFormatter formatter = new SimpleFormatter();
+		
+		
+		fileHandler.setFormatter(formatter);
+		Logger logger = Logger.getLogger("MyLog");
+		logger.addHandler(fileHandler);
+		logger.info("This is a log message");
+
+*************************************************************************************************
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss} %c{1} - %m %-5p%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT" follow="true">
+                    <JsonLayout></JsonLayout>
+         </Console>
+    </Appenders>
+
+    <Loggers>
+        <Root level="TRACE">
+            <AppenderRef ref="console"/>
+        </Root>
+    </Loggers>
+</Configuration>
+***************************************************************************************************
+
+
+

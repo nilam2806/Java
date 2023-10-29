@@ -1,0 +1,18 @@
+use world;
+DELIMITER $$
+-- CREATE FUNCTION isPrime(x INT) RETURNS BOOLEAN
+CREATE FUNCTION isPrime(x INT) RETURNS varchar(40)
+DETERMINISTIC
+BEGIN
+DECLARE n INT DEFAULT 2;
+   loop1:WHILE n<=SQRT(x) DO
+ IF x%n=0 THEN
+  RETURN "Not Prime";
+ END IF;
+       SET n=n+1;
+END WHILE;
+  RETURN "Prime";
+END$$
+DELIMITER ;
+
+drop function IF EXISTS isPrime;

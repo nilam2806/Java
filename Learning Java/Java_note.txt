@@ -1,0 +1,1476 @@
+                           Data Structures
+
+                        LEAVE FULL PAGE
+
+// converting primitive data type into object using wrapper classes and again converting the object into data type.
+
+public class Conversions
+{
+   public static void main(String args[])
+   {
+        int x = 10;
+        Integer i1 = new Integer(x);
+        System.out.println(i1);
+       // System.out.println(i1*i1); error
+
+        int k = i1.intValue();
+        System.out.println(k*k);
+
+       double d1 = 10.5;
+       Double d2 = new Double(d1);
+       System.out.println(d2);
+       // System.out.println(d2*d2); error
+
+      double d3 = d2.doubleValue();
+      System.out.println(d3*d3);
+  }
+}
+
+/*
+Modifications:
+
+a)
+            double d1 = 10.5;
+            Double d2 = new Double(d1);
+      //double d3 = d2.doubleValue();
+
+        int m = d2.intValue();
+       
+      System.out.println(m);
+
+b)  another style of parsing:
+
+     String str1 = "10";
+     // int x = Integer.parseInt(str1);
+     Integer i1 = new Integer(str1);
+     int x = i1.intValue();
+
+  // shortcut for above
+    int x = new Integer(str2).intValue();
+*/
+=================================
+/*                                Stack 
+All DS are placed in the package java.util. The other classes in java.util are Date, Calander, GregorianCalander, Random etc.
+
+Stack follows LIFO(Last In First Out).  That is, last added element is popped(given) out.
+
+Note: For other classes of java.util package, separate printed notes will be given.
+
+*/
+
+import java.util.*;  
+                     // for Stack  and Date classes
+public class StackDemo
+{
+   public static void main(String args[])
+   {
+                               // creating a Stack object
+       Stack st = new Stack();
+         
+       System.out.println(st.empty( )); // true
+
+        int x = 10;
+                                       // st.push(x); error
+        Integer i1 = new Integer(x);
+     st.push(i1);     // to add an object to stack
+    System.out.println(st.empty( ));    // false
+
+       double d = 10.5;
+       Double d1 = new Double(d);
+       st.push(d1);
+
+      // pushing an anonymous Integer object
+       st.push(new Integer(20));
+
+                                // pushing a string object
+       String s1 = new String("Okay");
+       st.push(s1);
+
+            // pushing anonymous string objects 
+      st.push("hello");      
+      st.push("hello1");
+      st.push("hello2");
+
+           // pushing an anonymous Date object	
+      st.push(new Date( ));
+
+                           // you can push any object
+    StringBuffer sb1 = new StringBuffer("rama");
+    st.push(sb1);
+
+     System.out.println("Size before first pop: " + st.size());
+
+      // to retrieve the last object added(LIFO)
+   System.out.println(st.pop( ));         // rama
+
+      System.out.println("Size after first pop: " + st.size());
+
+ System.out.println("\n\nTo retrieve in a loop:");
+
+     while( ! st.empty( ) )
+     {
+           System.out.println(st.pop());		
+     }
+  } 
+}
+
+/*
+      Once poped out, the object comes out of the stack permanently. That is why, rama is not printed in the loop(because it is popped out earlier).
+
+      empty( ) method returns true if the stack is empty. If elements exist, it returns false.
+
+     push(Object) is a method with which we can add an element to the stack.
+
+     pop( ) is method with which we can retrieve the element from the stack.	
+*/
+======================================
+//                          Vector
+// Vector is used very often by the programmers.  It includes many methods with which Vector object can be manipulated. As usual, it also stores only objects.
+
+import java.util.*;                       // for Vector class
+public class VectorDemo
+{
+   public static void main(String args[])
+   {
+                                            // creating Vector object
+Vector vect = new Vector( );
+                                                      // adding elements
+vect.addElement(new Integer(10));
+vect.addElement(new Float(15.5f));
+vect.addElement(new String("Hello"));
+vect.addElement("Rao");
+	
+Double d = new Double(15.76);
+vect.add(d);                     // add() can also be used
+
+   	        // inserting at the specified index	
+String str = "World";
+vect.insertElementAt(str,1); 
+
+	             // retrieving the first element
+System.out.println(vect.firstElement()); 
+
+	            // retrieving the last element
+System.out.println(vect.lastElement()); 
+
+      // retrieving the element at the specified index
+System.out.println(vect.elementAt(3)); 
+
+            // to find the index number of an element
+System.out.println(vect.indexOf("Rao")); 
+
+ // to check an element exist or not;  true or false
+System.out.println(vect.contains("World")); 
+
+                         // to find the number of elements
+System.out.println(vect.size( )); 
+
+    	  // to find the capacity of the vector
+System.out.println(vect.capacity( )); 
+
+// default capacity of vector is 10 and incremented by 10 when get filled up like 16 for a StringBuffer
+
+                       // to print all the elements in a row
+System.out.println(vect); 
+
+// Enumeration is an interface from java.util package
+
+System.out.println("\n\nPrinting all elements using Enumeration interface:");
+
+Enumeration e = vect.elements( );
+
+while(e.hasMoreElements( ))
+{
+         System.out.println(e.nextElement( )); 
+}
+
+System.out.println("\n\nAnother way of printing all elements using Vector methods");
+
+for(int i = 0; i < vect.size( ); i++)
+{
+        System.out.println(vect.elementAt(i)); 
+}
+
+// to read an element and convert it into data type
+	Object obj = vect.firstElement( );	
+	Integer xx = (Integer) obj;
+	int m = xx.intValue();
+	System.out.println("Value is " + m*m);
+  }
+}
+
+/* 
+     other methods:
+	a) remove(int index)
+	b) remove(Object obj)
+	c) removeAll( )	
+     eg:
+	remove(3);
+	remove("Rao");
+
+	Enumeration is an interface from java.util package.  By itself, it is not a data structure, but it helps data structures to print their values.
+
+               Enmeration e = vect.elements();
+
+         Now, e contains all the elements of Vector.
+
+          To print the values(elements), the Enumeration contains two methods:
+   
+            1. hasMoreElements( ) : used in while loop. This method returns true as long as elements exist with it to return.  If all elements are returned, this method returns false and loop terminates.  This type is designing a method helps to print all the values when the number of elements are not known.
+
+      2.  nextElement( ) :  returns each elememet (as an object of Object class)
+
+        Eventhough, Enumeration was developed for DS, it is used in many other places.  We use this in Advanced Java in Servlets and JSP.
+*/
+======================================
+/*                              Hashtable
+
+Hashtable stores key/value pairs.  Key and value must be objects(of any class).  When we supply the key, it returns the value.
+*/
+
+import java.util.*;
+public class HashDemo
+{  
+    public static void main(String args[])
+    {
+                              // creating a Hashtable object
+       Hashtable ht = new Hashtable();
+
+                                      // adding key/value pairs
+      ht.put("Apple","red");
+      ht.put("Strawberry","red");
+      ht.put("Lime","green");
+
+// key and value must be objects only(of any class)
+      HashDemo hd = new HashDemo();
+      ht.put(hd,"hello world");
+
+      String str = "thanks";
+      ht.put(str, "Sita");
+
+      ht.put("totalmarks", new Double(455.6));
+      ht.put("subjects", new Integer(6));
+	
+// to retrieve a value by supplying a key
+      System.out.println(ht.get("Lime"));
+
+                  	                // to print all the elements 
+  System.out.println("Printing all the elements");
+
+      Enumeration e = ht.keys( );
+
+// now, e contains all the key objects (not value objects)
+// nextElement( ) returns the key object
+
+      while(e.hasMoreElements())
+     {
+         Object  k = e.nextElement();    // k is the key
+         Object v = ht.get(k);
+                         // v is the value associated with k
+         System.out.println(k + " : " + v);
+    }	
+	                    // same casting procedure
+Object o1 = ht.get("totalmarks");
+Double d1 = (Double) o1;
+double d2 = d1.doubleValue();
+
+Object o2 = ht.get("subjects");
+Integer ii = (Integer) o2;
+int m = ii.intValue();
+System.out.println("Average marks: " + Math.round(d2/m));
+  }
+}
+
+/*
+put(object, object) method takes two objects as parameters; first one as a key and the second one as a value.
+
+get(object) method returns an object of Object class and we must supply the key object as parameter.
+*/
+=================================
+/*                       Properties
+
+ Properties is like Hashtable, but with a small difference. Properties also takes key/value pairs, but they must be string objects only.  
+
+(Remember, incase of Hashtable, the key and value can be objects of any class.)
+
+*/
+
+import java.util.*;
+public class PropertiesDemo
+{
+     public static void main(String args[])
+     {
+            	Properties p = new Properties();
+
+// key/value pair must be string objects only
+
+	p.put("Bawarchi", "Biryani");
+	p.put("Blue Sea", "Tea");
+	p.put("Niagara", "Haleem");
+  System.out.println(p.getProperty("Bawarchi"));
+
+System.out.println(p.getProperty("Shivani"));
+// returns null because Shivani key does not exist
+
+System.out.println("\n\nTo print the values using Enumeration interface:");
+
+String str;      // a temporary string variable
+
+Enumeration e = p.keys( );
+while(e.hasMoreElements( ))
+{
+        str = (String) e.nextElement( );
+        System.out.println(str + " : " + p.getProperty(str));
+}
+}
+}
+
+/*
+   getProperty(String) takes the key as parameter and returns the value as a String.
+*/
+=================================
+
+
+
+/*                        LinkedList
+
+   It is same as C/C++, but without pointers.  We use methods to manipulate the LinkedList like adding, deleting, inserting and retrieving etc.
+*/
+
+import java.util.*;
+public class LinkedListDemo
+{
+    public static void main(String args[])
+    {
+         LinkedList list = new LinkedList( );
+
+// adding methods
+         Integer i1 = new Integer(10);
+         list.add(i1);                                  // index is 0
+         list.add(new Double(3.5));          // index is 1
+         list.add("Hello");                       // index is 2
+
+         list.add(new Boolean(true));
+
+// inserting at specified index(say 1); Remember that index starts at 0
+         list.add(1, new Float(2.5f));  
+
+// adding at first
+         list.addFirst(new Character('A'));
+
+                                                   // adding at last
+         list.addLast(new Short("5"));
+
+         list.add(i1); // adding again same element
+
+         list.add(new Byte("3"));
+
+// replacing at the specified index, original is lost
+         list.set(2,"S N Rao");  
+
+                                         // removing methods
+// removing at the specified index
+        list.remove(1);	
+
+// removing the first element
+        System.out.println(list.removeFirst());
+
+// removing the last element
+        list.removeLast();
+
+// other remove methods are removeAll( ) and 
+// removeRange(int start, int end)
+
+                           // miscellaneous methods
+         // retrieving the index number of an element
+System.out.println(list.indexOf(i1));
+
+      // if multiple elements exists of the same name
+System.out.println(list.lastIndexOf(i1));
+
+		// retrieving the elements
+// retrieving the element at the specified index
+System.out.println(list.get(1));
+
+// to get the first element
+System.out.println(list.getFirst());
+
+// to get the last element
+System.out.println(list.getLast());
+
+		// miscellaneous methods
+// to know the number of elements in the list
+System.out.println(list.size());
+
+// to check an element exists or not
+System.out.println(list.contains(i1));
+
+// to check any elements are there or not
+System.out.println(list.isEmpty());
+
+System.out.println("\n\nTo retrieve the elements using ListIterator instead of Enumeration:");
+
+// instead of Enumeration, it is ListIterator
+// 2 indicates to print from 2nd element onwards
+// if any number is not specified, default is 0 and 
+// prints all.  This is the advantage over 
+// Enumeration. We can print from any index.
+
+      ListIterator li = list.listIterator(4);
+      while(li.hasNext())
+      {
+            System.out.println(li.next());
+      }
+   }
+}
+**************************************************************************************************************************
+
+
+What is Enumeration or Enum in Java?
+A Java enumeration is a class type. Although we don’t need to instantiate an enum using new, it has the same capabilities as other classes.
+ This fact makes Java enumeration a very powerful tool. Just like classes, you can give them constructors, add instance variables and 
+methods, and even implement interfaces.
+
+
+
+
+
+enum Size {
+ SMALL, MEDIUM, LARGE, EXTRALARGE
+}
+class Test {
+ Size pizzaSize;
+ public Test(Size pizzaSize) {
+   this.pizzaSize = pizzaSize;
+ }
+ public void orderPizza() {
+   switch(pizzaSize) {
+     case SMALL:
+       System.out.println("I ordered a small size pizza.");
+       break;
+     case MEDIUM:
+       System.out.println("I ordered a medium size pizza.");
+       break;
+     default:
+       System.out.println("I don't know which one to order.");
+       break;
+   }
+ }
+}
+
+class Main {
+ public static void main(String[] args) {
+   Test t1 = new Test(Size.MEDIUM);
+   t1.orderPizza();
+ }
+}
+****************************************************************************
+******************* another example *************
+
+enum Size{
+  SMALL, MEDIUM, LARGE, EXTRALARGE;
+  public String getSize() {
+    // this will refer to the object SMALL
+    switch(this) {
+      case SMALL:
+        return "small";
+      case MEDIUM:
+        return "medium";
+      case LARGE:
+        return "large";
+      case EXTRALARGE:
+        return "extra large";
+      default:
+        return null;
+      }
+   }
+
+    
+    
+  public static void main(String[] args) {
+
+    // call getSize()
+    // using the object SMALL
+    System.out.println("The size of the pizza is " + Size.SMALL.getSize());
+  }
+}
+************************************************************************************
+
+
+
+
+            Notes on Hierarchy of exceptions
+
+                           Figure  (full page landscape)
+
+     The supermost class of all exeception classes of Java is "Throwable" class.  It includes two subclasses, namely, "Error" and
+ "Exception".
+
+           Error is an exception thrown by hardware problems at runtime.  We cannot save one more file when the harddisk is full.  
+At runtime if the harddisk is full, we must come out of the program, do something needful and resume the program execution again. 
+ If a hardware problem comes, the programmer has to terminate the program.  For this reason, the programmer does not bother about Error, 
+because he will handle it.
+
+     For this reason, the programmer feels that "Exception" is the supermost class practically.  But remember that theoritically it 
+is "Throwable".
+
+      The above hierarchy can be divided into two catogories - unchecked and checked exceptions.
+
+*Unchecked exceptions:
+
+     Error and subclasses of RuntimeException are called as unchecked exceptions because even if they are not checked or handled by 
+the programmer, the "program compiles". But, if at runtime, a problem comes the program terminates.  That regarding unchecked exceptions,
+ the compiler does not bother.  Designers feel that unchecked exceptions are most frequently occurring in the programming.  
+ Ex: ArithmeticException, NumberFormatException.
+
+*Checked exceptions:
+
+         Throwable class and its subclasses except Error and RuntimeException are called "checked exceptions" because if the programmer 
+does not handle them, the "program does not compile". That is, regarding chekced exceptions, compiler bothers much and if not handled 
+the program never compiled.  Compiler treats them as serious and occur in specific cases and must be handled. Ex: FileNotFoundException,
+ InterruptedException etc.
+
+
+Exception Handling
+
+
+                                Leave Half-page
+
+
+// to illustrate the effect of not handling the exception.
+
+public class ExceptionUnhandled
+{
+   public static void main(String args[])
+   {
+       int a = 10, b = 0, c;
+       System.out.println("Hello 1");
+
+       c = a/b;
+       System.out.println(c);
+
+       System.out.println("Hello 2");
+       System.out.println("Hello 3");
+  }
+}
+=========================================
+
+// Aim:  To show the effect of exception handling.  This is a revised program of earlier where exception thrown by the system (JVM) 
+is handled so that program executes to the last statement.
+
+public class ExceptionHandled
+{
+    public static void main(String args[])
+    {
+       int a = 10, b = 0, c;
+       System.out.println("Hello 1");
+       try
+       {
+             c = a/b;
+             System.out.println(c);  
+       }
+       catch(ArithmeticException e)
+      {
+         System.out.println("Do not divide by zero sir." + e);
+     }
+
+     System.out.println("Hello 2");
+     System.out.println("Hello 3");
+  }
+}  
+
+/*
+a) try and catch are keywords of Java used exclusively with exception handling mechanism.
+
+b) identify the trouble making statements at runtime and place them in the try block.
+
+c) when the try block throws the exception, the catch block handles the exception and the program execution goes further to 
+the last statement.
+
+d) if the try block does not throw the exception, the catch block is simply ignored(not executed).
+
+e)  we must provide a suitable exception handler that can handle the exception thrown by the try block, successfully.
+
+f) in the above program, the successful exception handler is "ArithmeticException" for the problem of "division by zero". 
+ ArithmeticException is a  class from java.lang package.
+
+g) one of the ways of handling the exception is using try and catch blocks (other ways are discussed later).
+
+h) What is exception handling?
+
+       Hanling the exception thrown by the try block is called exception handling and if the exception is handled successfully, 
+
+the program's execution goes further to execute all the statements of the program.
+
+i)  Generally, exceptions are raised due to user's wrong interaction (entering some values that are not supposed to be) with the 
+system at runtime.
+
+j)  Some problems that may raise exceptions are:
+         
+          a) dividing an integer with zero.
+               (represented by ArithmeticException)
+
+          b) accessing an array element that does not               exist.
+            (represented by ArrayIndexOutOfBoundsException)
+  
+        c)  connecting to a system that does not exist (by giving wrong IP address)  
+               (represented by MalformedURLException)
+
+          d) trying to parse a string value that can not be    parsed.
+               (represented by NumberFormatException)
+
+          e) using reference variable in place of an object
+               (represented by NullpointerException)
+ */
+ =====================================
+// Using "finally" keyword in exception handing mechanism
+
+ public class FinallyDemo
+ {
+      public static void main(String args[])
+      {
+             int x[] =  { 10, 20, 30 };
+             System.out.println("Hello 1");
+             try
+             {
+                   System.out.println(x[3]);
+             }
+             catch(ArithmeticException e)    
+            {                                     // wrong handler
+               System.out.println("PROBLEM. " +e);
+            }
+            finally
+            {
+                System.out.println("Hello 2");
+           }
+           System.out.println("Hello 3");
+    }                                                     // main() close
+}                                                        // class close
+
+/*
+a) finally is a keyword of Java used with exception handling.  The statements of finally block are guaranteed of execution whether 
+the exception is handled successfully or not by the programmer. In the above program, wrong handler is used, even then, "Hello 2" is
+ printed.
+
+b) finally must be used in combination with try block.
+
+c) using finally is optional.
+
+d) It must be remembered that catch block will be executed only when we provide a successful exception handler.  In the above program, 
+catch is not executed because we provided "ArithmeticException" instead of "ArrayIndexOutOfBoundsException".  But finally block is 
+executed because it is guranteed of execution by JRE (Java Runtime Environment also known as execution environment.  Generally, 
+C programmers call it as "system").
+
+=====================================                          
+Note:  
+
+	JRE other name is Execution engine.
+	JVM + Java API is known as JRE.
+           	JRE + Compiler is known as JDK.
+
+         Compiler is responsible to generate platform independent bytecode from source code.
+     
+         JVM is responsible to convert bytecode to machine (platform) dependent binary code, execute and get output.
+
+*/
+=======================================
+
+
+i) try  :  try represents a block of statements.  These statements may raise an exception at runtime due to the wrong 
+interaction (wrong input) by the user.
+
+ii) catch : catch represents a block of statements.  catch includes an exception handler which can handle the excetpion, 
+if thrown by the try block.  If try block does not throw the exception, the catch is simply ignored(not executed).  A catch 
+block cannot exist without try block (like else cannot exist without if).
+
+
+a)  What is the difference between throw and throws?
+
+    throw and throws are keywords of Java exclusively used with exception handling mechanism.
+
+1.  "throw" is used by the programmer to throw the exception object to the system explicitly.  System receives the object, displays the 
+message associated with it and terminates the program.
+
+2.  "throws" is used in two ways:
+   
+     a) throws is used by the language designer to claim (inform) the problem that may be encountered while using the method/constructor. 
+This is known as "Claiming exception".
+
+    b)  throws is used as an alternative way for try-catch block, but is not a robust way.
+
+b)  What are the other keywords used with excetpion handling?
+
+i) try  :  try represents a block of statements.  These statements may raise an exception at runtime due to the wrong interaction
+ (wrong input) by the user.
+
+ii) catch : catch represents a block of statements.  catch includes an exception handler which can handle the excetpion, if thrown by 
+the try block.  If try block does not throw the exception, the catch is simply ignored(not executed).  A catch block cannot exist without
+ try block (like else cannot exist without if).
+
+iii) finally :  finally represents a block of statements.  The statements of finally block are "guaranteed" of execution whether the 
+exeception is caught successfully or not by the catch block (if the programmer provides a wrong handler).
+
+c)  Which object can be thrown by throw keyword?
+
+     It can throw an object of any exception class which must be Throwable or any of its subclasses.
+
+d)  the above if block can be replaced as follows using anonymous object.
+
+  throw new NoMoneyException("No Money Please");
+
+*************************************************************************************************************************
+
+package com.training.org;
+class MyException extends Exception{
+	private String myMessage;
+	public MyException() {
+		System.out.println("Default constructor of MyException Class is called");
+		myMessage="";
+	}
+	public MyException(String msg) {
+		System.out.println("Parameterised constructor of MyException Class is called");
+		myMessage=msg;
+	}
+	
+	public String getMyMessage() {
+		return this.myMessage;
+	}
+}
+
+public class ExceptionHandlingExample {
+	public static void main(String[] args) {
+//		int a=0;
+//		try {
+//			if(a==0) {
+//				throw new MyException("This is my custom message");
+//			}
+//		}
+//		catch(MyException e) {
+//			System.out.println(e.getMyMessage());
+//		}
+//		int a=0;
+//		try {
+//			a=100/0;
+//			System.out.println("done");
+//		}
+//		catch (ArithmeticException e) {
+//			System.out.println("FOUND ERROR "+e.getMessage());
+//		}
+//		catch(Exception e) {
+//			System.out.println("ERROR "+e.getMessage());
+//		}
+//		finally {
+//			System.out.println("We are always with you ");
+//		}
+//		System.out.println("ENDED");
+//		System.out.println("Value of a"+a);
+//
+//		
+		
+		
+	}
+
+}
+************************************************************************************************************
+package com.training.org;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+public class ThrowsExample {
+	public static void main(String[] args) throws FileNotFoundException {
+	try {    
+		FileInputStream fIn=new FileInputStream("MyFile.txt");
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage()); 
+			
+		}
+	}
+}
+****************************************************************************************************************
+// display the message using user- efined exception class
+
+class NoMoneyException extends NumberFormatException
+{
+     public NoMoneyException(String message)
+     {
+         super(message);
+     }
+}
+public class Bank 
+{
+    public static void main(String args[])    // throws NoMoneyException
+    {
+        int balance = 5000, withdraw = 10000;
+        if(balance < withdraw)
+       {   
+           NoMoneyException e = new NoMoneyException("No Money Sir");
+           throw e;
+       }
+        else
+        {
+              System.out.println("Draw & enjoy");
+        }
+    }
+}
+*******************************************************************************************************************
+
+create aclass organization with arraylist of employee
+
+features
+1] add employee shouuld e able to add new employee with existing array list
+2]remove employee
+
+****Containmemt******
+package com.training.org;
+
+import java.util.Arrays;
+
+class Employee{
+	private int empId;
+	private String empName;
+	private double salary;
+	
+	public Employee() {
+		System.out.println("Default constructor of Employee is called");
+		this.empId=0;
+		this.empName="";
+		this.salary=0;
+	}
+	
+	public Employee(int empId,String empName,double salary) {
+		System.out.println("Parameterised constructor of Employee is called");
+		this.empId=empId;
+		this.empName=empName;
+		this.salary=salary;
+	}
+	
+	public String toString() {
+		return "EmpId "+this.empId+" Name "+this.empName+" Salary "+this.salary;
+	}
+	
+}
+
+class Oraganization{
+	private String orgName;
+	private String orgLocation;
+	
+	private Employee emp[];
+	
+	public Oraganization() {
+		System.out.println("Default constructor of Organization is called");
+		this.orgName="";
+		this.orgLocation="";
+		this.emp=new Employee[0];
+	}
+	
+	
+	public Oraganization(String orgName,String orgLocation,int size) {
+		System.out.println("Parameterised constructor of Organization is called");
+		this.orgName=orgName;
+		this.orgLocation=orgLocation;
+		this.emp=new Employee[size];
+	}
+	
+	public Oraganization(String orgName,String orgLocation,Employee []empList) {
+		System.out.println("Parameterised constructor of Organization is called");
+		this.orgName=orgName;
+		this.orgLocation=orgLocation;
+		this.emp=empList;
+	}
+	
+	public String toString() {
+		
+		
+		return Arrays.toString(emp)+" OrgName "+this.orgName+" OrgLocation"+this.orgLocation;
+	}
+	
+}
+
+public class ContainementExample {
+
+	public static void main(String[] args) {
+		
+//		Oraganization mav=new Oraganization("Maveric","Pune",101,"Eshan",100000);
+//		System.out.println(mav);
+		
+		Employee empList[]=new Employee[5];
+		empList[0]=new Employee(101,"Eshan",10000);
+		empList[1]=new Employee(102,"Priya",20000);
+		empList[2]=new Employee(103,"Anand",30000);
+		empList[3]=new Employee(104,"Manish",40000);
+		empList[4]=new Employee(105,"Tanish",50000);
+		
+		
+		Oraganization org1=new Oraganization("MYOrg","pune",empList);
+		System.out.println(org1);
+		
+		
+//		Oraganization org1=new Oraganization("MYOrg","pune",5);
+		
+		
+	
+	}
+}
+
+******************************************************************************************
+
+noOfWorkingHours=370
+1 Dec 2022
+
+noOfDayInMonth=calculate days in Dec month
+
+perDaySalary=10000 / noOfDaysInMonth
+
+perHourSalary=perDaySalary/8
+
+netSalary=perHourSalary*noOfWorkingHours
+*******************************************************************************************************************
+
+sales<5000
+Comm=5% on basicSalary
+
+sales>=5000 <10000
+commission=7% on basic salary
+
+sales>=10000 <15000
+commission=10% on basic salary
+
+
+sales>=15000 
+commission=15% on basic salary
+
+netSalary=basic+commission
+
+*******Stack Code****************
+
+package com.training.org;
+
+public interface EmpStkInterface {
+	void push(SalesEmployee se1);
+	SalesEmployee pop();
+}
+
+
+package com.training.org;
+
+public class StackSalesEmployeeImpl implements EmpStkInterface{
+	private SalesEmployee stk[];
+	private int top;
+		
+	public StackSalesEmployeeImpl() {
+		System.out.println("Default constructor of StackSalesEmployeeImpl is called");
+		stk=new SalesEmployee[0];
+		top=0;
+	}
+	// allocate and initialize stack
+	public StackSalesEmployeeImpl(int size) {
+			System.out.println("Parameterised constructor of StackSalesEmployeeImpl is called");
+			stk = new SalesEmployee[size];
+			top = -1;
+	}
+	
+	@Override
+	public void push(SalesEmployee se1) {
+		if(top==stk.length-1) // use length member
+			System.out.println("Stack is full.");
+		else
+			stk[++top] = se1;
+	}
+
+
+	@Override
+	public SalesEmployee pop() {
+		if(top < 0) {
+			System.out.println("Stack underflow.");
+			return null;
+		}
+		else
+			return stk[top--];
+	}
+}
+*******************************************************************************
+
+
+package com.training.org;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class XYZOrg {
+	public static void main(String[] args) {
+		
+		StackSalesEmployeeImpl myStack =new StackSalesEmployeeImpl(10);
+		SalesEmployee s1=new SalesEmployee(101,"EShan",10000,5000);
+		s1.calculateSalary();
+		
+		SalesEmployee s2=new SalesEmployee(102,"Tanish",20000,5656);
+		s2.calculateSalary();
+		
+		SalesEmployee s3=new SalesEmployee(103,"Manish",30000,3456);
+		s3.calculateSalary();
+		
+		
+		SalesEmployee s4= new SalesEmployee(104,"Kanish",40000,6656);
+		s4.calculateSalary();
+				
+		SalesEmployee s5=new SalesEmployee(105,"Vanish",50000,4544);
+		s5.calculateSalary();
+		
+		
+		myStack.push(s1);
+		myStack.push(s2);
+		myStack.push(s3);
+		myStack.push(s4);
+		myStack.push(s5);
+		
+		
+		System.out.println(myStack.pop());
+	
+				
+//		
+//		SalesEmployee se1=new SalesEmployee(101,"Eshan",10000,5000);
+//		se1.calculateSalary();
+//		System.out.println(se1);
+//		
+		
+		
+//		ArrayList<Employee> empList=new ArrayList<Employee>();
+//		Scanner input=new Scanner(System.in);
+//		int flag=0;
+//		int flag1=0;
+//		char ch;
+//		do {
+//			System.out.println("1] Add new record\n2] Display records\n3] Delete Record\n4] Update record\n");
+//			int choice=input.nextInt();
+//			switch (choice) {
+//			case 1:
+//				System.out.println("Enter empId");
+//				int id=input.nextInt();
+//				System.out.println("Enter name");
+//				String name=input.next();
+//				System.out.println("Enter salary");
+//				double sal=input.nextDouble();
+//				
+//				empList.add(new Employee(id,name,sal));
+//				System.out.println("Record is added successfully.....");
+//				break;
+//					
+//			case 2:
+//				System.out.println("*************** Employee records are **************");
+//				
+//				System.out.println("------------------------------------------------------");
+//				for (Employee emp : empList) {
+//					System.out.println(emp);
+//				}
+//				System.out.println("------------------------------------------------------");
+//				break;
+//				
+//			case 3:
+//				System.out.println("Enter the name to delete");
+//				String nm=input.next();
+//				
+//				for (int i = 0; i < empList.size(); i++) {
+//					if(empList.get(i).getEmpName().equals(nm)) {
+//						empList.remove(i);
+//						System.out.println("Record is deleted successfully......");
+//						flag=1;
+//						break;
+//					}
+//				}
+//				if(flag==0) {
+//					System.out.println("Record is not available.....");
+//					
+//				}
+//				
+//				break;
+//				
+//				
+//				
+//			case 4:
+//				System.out.println("4.1] Update name\n4.2] Update salary\n\n");
+//				int choice1=input.nextInt();
+//				switch (choice1) {
+//				case 1:
+//					System.out.println("Enter the old name to replace");
+//					String nmOld=input.next();
+//					for (int i = 0; i < empList.size(); i++) {
+//						if(empList.get(i).getEmpName().equals(nmOld)) {
+//							System.out.println("Enter new name to replce with "+nmOld+" name");
+//							String nmNew=input.next();
+//							empList.get(i).setEmpName(nmNew);
+//							System.out.println("Updated the name successfully.....");
+//							flag1=1;
+//							break;
+//						}
+//					}
+//					if(flag1==0)
+//						System.out.println("Record not found for deletion.....");
+//					break;
+//				case 2:
+//					System.out.println("Provide yearly increment for employee with condition");
+//					
+//					System.out.println("Enter the salary for condition...");
+//					int checkSal=input.nextInt();
+//					
+//					System.out.println("Enter increment percentage");
+//					double incrementPer=input.nextDouble();
+//					
+//					for (int i = 0; i < empList.size(); i++) {
+//						if(empList.get(i).getSalary()<checkSal) {
+//							empList.get(i).setSalary(empList.get(i).getSalary()*(incrementPer/100+1));
+//						}
+//					}
+//					break;
+//					
+//				default:
+//					break;
+//				}
+//				break;
+//			default:
+//				System.out.println("Invalied Choice.....");
+//				break;
+//			}
+//
+//			
+//			System.out.println("Do you want to continuee.....");
+//			ch=input.next().charAt(0);
+//				
+//		}while(ch=='y'||ch=='Y');
+//		
+//		System.out.println("I'm done");
+//		
+////		Employee e1=new Employee();
+////		System.out.println(e1);
+////		
+////		
+////		Employee e2=new Employee(101,"Eshan",10000);
+////		System.out.println(e2);
+//		
+		
+		
+	}
+
+}
+*******************************************************************************************************************
+package com.training.org;
+
+public class SalesEmployee extends Employee{
+	private int sales;
+	private double commission;
+	private double netSalary;
+	
+	public SalesEmployee() {
+		System.out.println("Default constructor of SalesEmployee is called");
+		this.sales=0;
+		this.commission=0;
+		this.netSalary=0;
+	}
+
+	public SalesEmployee(int empId,String empName,double salary,int sales) {
+		super(empId,empName,salary);
+		System.out.println("Parameterised constructor of SalesEmployee is called");
+		this.sales = sales;
+		this.commission = 0;
+		this.netSalary = 0;
+	}
+	
+	public String toString() {
+		return super.toString()+ "Sales "+this.sales+" Commission "+this.commission+" Net Salary"+this.netSalary;
+	}
+	
+	
+
+}
+
+*******************************************************************************************************************
+
+package com.training.org;
+
+
+class ParentClass{
+	
+	private int aVal;
+	public ParentClass() {
+		System.out.println("Default constructor of ParentClass is called");
+		aVal=1;
+	}
+	
+	public ParentClass(int aVal) {
+		System.out.println("Parameterised constructor of ParentClass is called");
+		this.aVal=aVal;
+	}
+	
+	public String toString() {
+		return "showParentDetails from Parent Class is called:- " +aVal ;
+	}
+	
+//	public void showParentDetails() {
+//		System.out.println("showParentDetails from Parent Class is called:- " +aVal);
+//	}
+	
+}
+
+class ChildClass extends ParentClass{
+	private int bVal;
+	
+	public ChildClass() {
+		System.out.println("Default constructor of ChildClass is called");
+		bVal=0;
+	}
+	
+	public ChildClass(int aVal,int bVal) {
+//		super(aVal);  //this is calling ParentClass parameterised constructor
+		System.out.println("Parameterised constructor of ChildClass is called");
+		this.bVal=bVal;
+	}
+	
+//	public void showChildDetails() {
+////		super.showParentDetails();
+//
+//		System.out.println("showChildDetails from Child class is called:-  "+bVal);
+//	}
+
+	public String toString() {
+
+		return super.toString()+"showChildDetails from Parent Class is called:- " +bVal ;
+	}
+}
+
+
+
+public class InheritanceExample {
+	public static void main(String[] args) {
+		ChildClass c1=new ChildClass(100,200);
+//		c1.showChildDetails();
+		System.out.println(c1);
+	}
+	
+}
+
+*******************************************************************************************************************
+
+
+
+
+
+package com.training.org;
+
+
+class ParentClass{
+	
+	private int aVal;
+	public ParentClass() {
+		System.out.println("Default constructor of ParentClass is called");
+		aVal=0;
+	}
+	
+	public ParentClass(int aVal) {
+		System.out.println("Parameterised constructor of ParentClass is called");
+		this.aVal=aVal;
+	}
+	
+	public void showParentDetails() {
+		System.out.println("showParentDetails from Parent Class is called:- " +aVal);
+	}
+	
+}
+
+class ChildClass extends ParentClass{
+	private int bVal;
+	
+	public ChildClass() {
+		System.out.println("Default constructor of ChildClass is called");
+		bVal=0;
+	}
+	
+	public ChildClass(int aVal,int bVal) {
+		super(aVal);  //this is calling ParentClass parameterised constructor
+		System.out.println("Parameterised constructor of ChildClass is called");
+		this.bVal=bVal;
+	}
+	
+	public void showChildDetails() {
+		super.showParentDetails();
+
+		System.out.println("showChildDetails from Child class is called:-  "+bVal);
+	}
+	
+}
+
+
+
+public class InheritanceExample {
+	public static void main(String[] args) {
+		ChildClass c1=new ChildClass(100,200);
+		c1.showChildDetails();
+	}
+}
+
+
+*******************************************************************************************************************
+
+
+
+https://ethercalc.net/k7zftz2wp8jr
+    
+*******************************************************************************************************************
+
+package com.training.org;
+public class Employee {
+	private int empId;
+	private String empName;
+	private double salary;
+	
+	public Employee() {
+		System.out.println("Default constructor of Employee is called");
+		this.empId=0;
+		this.empName="";
+		this.salary=0;
+	}
+	
+	public Employee(int empId,String empName,double salary) {
+		System.out.println("Parameterised constructor of Employee is called");
+		this.empId=empId;
+		this.empName=empName;
+		this.salary=salary;
+	}
+	
+	public String getEmpName() {
+		return empName;
+	}
+	
+	public void setEmpName(String name) {
+		this.empName=name;
+	}
+	
+	
+	public double getSalary() {
+		return salary;
+	}
+	
+	public void setSalary(double salary) {
+		this.salary=salary;
+	}
+	
+	
+	public String toString() {
+		return " | "+this.empId+" | "+this.empName+" | "+this.salary;
+	} 
+	
+
+}
+*******************************************************************************************************************
+
+package com.training.org;
+
+import java.io.IOException;
+import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
+
+public class Complex {
+	private int real;
+	private int imag;
+	
+	//Default constructor
+	public Complex() {
+		System.out.println("Default constructor of Complex is called");
+		real=0;
+		imag=0;
+	}
+	
+	//Parameterised constructor
+	public Complex(int real,int imag) {
+		System.out.println("Parameterised constructor of Complex class is called");
+		this.real=real;
+		this.imag=imag;
+	}
+	
+	public String toString() {
+		return ("Complex values are "+real+" "+imag);
+	}
+	
+	
+//	public void showComplexValues() {
+//		System.out.println("Complex values are "+real+" "+imag);
+//	} 
+	
+	
+	public void acceptComplexValues() throws IOException{
+		
+		//First method
+//		
+//		BufferedReader input =new BufferedReader(new InputStreamReader(System.in));
+//		System.out.println("Enter the values for real");
+//		this.real=Integer.parseInt(input.readLine());
+//		
+//		System.out.println("Enter the values for imag");
+//		this.imag=Integer.parseInt(input.readLine());
+		
+		
+		//second method
+//		
+		Scanner input =new Scanner(System.in);
+		System.out.println("Enter the values for real");
+		this.real=input.nextInt();
+		
+		System.out.println("Enter the values for imag");
+		this.imag=input.nextInt();
+		
+		
+		
+		//Third method
+		
+//	    this.real = Integer.parseInt(JOptionPane.showInputDialog("Enter first value"));
+//	    this.imag = Integer.parseInt(JOptionPane.showInputDialog("Enter second value"));
+//		
+//		JOptionPane.showMessageDialog(null, "Values are "+this.real+" "+this.imag);
+	}
+	
+	public static void main(String[] args) throws IOException {
+		
+		Complex c1 =new Complex();
+		c1.acceptComplexValues();
+		
+		System.out.println(c1);
+		
+		
+//		c1.showComplexValues();
+		
+//		Complex c2=new Complex(100,200);
+//		c2.showComplexValues();
+		
+//		Complex c1=new Complex();
+//		c1.showComplexValues();
+//		for (int i = 0; i < 10; i++) {
+//			System.out.println("I: "+i);
+//		}
+		
+		
+//		System.out.println(c1);
+	}
+
+}
+
+*******************************************************************************************************************
+
+https://quizizz.com/join?gc=791979
+*******************************************************************************************************************
+
+class name with Pascal case{
+
+	Member variables are private and camel case 
+	
+	default constructor as public 
+	parameterised contructor as public
+
+	setters as public and camel case 
+	getters as public and camel case 
+	
+	toString as public and camel case 
+	Behaviours as public and camel case 
+
+}

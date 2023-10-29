@@ -1,0 +1,602 @@
+https://github.com/sbmadake/CommonJavaMaterial/blob/main/mysql-connector-java-8.0.30.jar
+********************************************************************************************
+ package com.training.org;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class JDBCConnectionExample {
+	public static void main(String[] args) throws SQLException {
+
+		String url="jdbc:mysql://localhost:3306/training";
+		String username="shital";
+		String password="shital@123";
+		Connection con = null;
+		try {
+			con=DriverManager.getConnection(url, username, password);
+			if(con!=null) {
+				System.out.println("Connection is successfuly...");
+			}else {
+				System.out.println("Not able to connect.....");
+			}
+		}
+		catch(Exception e) {
+			System.out.println("ERROR"+e.getMessage());
+		}
+		finally {
+			con.close();
+		}
+	}
+
+}
+**********************************************************************************************************
+
+package com.training.org;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class JDBCConnectionExample {
+	public static void main(String[] args) throws SQLException {
+
+		String url="jdbc:mysql://localhost:3306/training";
+		String username="shital";
+		String password="shital@1234";
+		Connection con = null;
+		try {
+			con=DriverManager.getConnection(url, username, password);
+			if(con!=null) {
+				System.out.println("Connection is successfuly...");
+			}else {
+				System.out.println("Not able to connect.....");
+			}
+		}
+		catch(Exception e) {
+			System.out.println("ERROR"+e.getMessage());
+		}
+		finally {
+			if(con!=null) {
+				con.close();
+				System.out.println("Closing Connection......");
+			}else {
+				System.out.println("Cant able to close the connection.....");
+			}
+			
+		}
+	}
+
+}
+
+**********************************************************************************************************
+
+
+
+package com.training.org;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class JDBCOperations {
+	private Connection conn;
+	private String username;
+	private String password;
+	private String query;
+	
+	public JDBCOperations() {
+		System.out.println("Default constructor of JDBCOperations is called");
+		conn=null;
+		username="";
+		password="";
+		query="";
+	}
+	
+	public static Connection mysqlConnection(String username,String password) throws SQLException {
+		Connection conn=null;
+		conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/training",username,password);
+		return conn;
+		
+	}
+	
+	public JDBCOperations(String username,String password) throws SQLException {
+		System.out.println("Parameterised constructor of JDBCOperations is called");
+		this.username=username;
+		this.password=password;
+		this.conn=JDBCOperations.mysqlConnection(username, password);
+		System.out.println(this.conn);
+		query="";
+	}
+	
+	
+
+}
+
+*******************************
+package com.training.org;
+
+import java.sql.SQLException;
+
+public class DatabaseConnection {
+	public static void main(String[] args) throws SQLException {
+		try {
+		JDBCOperations jb=new JDBCOperations("shital2","shital@123");
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+}
+
+***************************************************************************************************
+
+package com.training.org;
+
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+
+
+public class JDBCOperations {
+	private Connection conn;
+	private String username;
+	private String password;
+	private String query;
+	private Statement stmt;
+	
+	public JDBCOperations() {
+		System.out.println("Default constructor of JDBCOperations is called");
+		conn=null;
+		username="";
+		password="";
+		query="";
+	}
+	
+	public static Connection mysqlConnection(String username,String password) throws SQLException {
+		Connection conn=null;
+		conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/training",username,password);
+		return conn;
+		
+	}
+	
+	public JDBCOperations(String username,String password) throws SQLException {
+		System.out.println("Parameterised constructor of JDBCOperations is called");
+		this.username=username;
+		this.password=password;
+		this.conn=JDBCOperations.mysqlConnection(username, password);
+		System.out.println(this.conn);
+		stmt=conn.createStatement();
+		query="";
+	}
+	
+	public void createDatabase(String name) throws SQLException {
+//		stmt = conn.createStatement();
+        // send sql command
+		String query="create database "+name;
+		System.out.println(stmt.executeUpdate(query));
+		System.out.println("Database created");
+	}
+	
+	public void createTable(String query) throws SQLException {
+//		stmt = conn.createStatement();
+        // send sql command
+		System.out.println(stmt.executeUpdate(query));
+		System.out.println("Table is created");
+	}
+	
+	
+	public void insertData() throws SQLException {
+		
+		
+		DatabaseMetaData dbmt=conn.getMetaData();
+		dbmt.get
+//		stmt=conn.createStatement();
+		
+		stmt.execute("insert into employee values(101,'Anand',10000);");
+		stmt.execute("insert into employee values(102,'Manan',20000);");
+		stmt.execute("insert into employee values(103,'Tanish',30000);");
+		stmt.execute("insert into employee values(104,'Rupesh',40000);");
+		
+		System.out.println("Records inserted ");
+
+	}
+	
+	
+	public void closeMysqlConnection() throws SQLException {
+		if(this.conn!=null) {
+			this.conn.close();
+			System.out.println("Connection is closing");
+		}else {
+			System.out.println("Cant able to close the connection");
+		}
+		
+	}
+
+}
+******************************
+
+package com.training.org;
+
+import java.sql.SQLException;
+
+public class DatabaseConnection {
+	public static void main(String[] args) throws SQLException {
+		try {
+		JDBCOperations jb=new JDBCOperations("root","root");
+		//jb.CreateDatabase("newdatabase");
+		
+		//jb.CreateTable("create table ODBC(empid int, name varchar(30), salary int)");
+		jb.insertData();
+		jb.closemyConnection();
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+}
+
+****************************************************************************************************************
+
+5]  Reading Data from user
+
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+System.out.println("Enter Employee ID:");
+int id = Integer.parseInt(br.readLine());
+
+System.out.println("Enter Employee Name:");
+String name = br.readLine();
+
+System.out.println("Enter Employee Salary:");
+double salary  = Double.parseDouble(br.readLine());
+
+stmt.executeUpdate("insert into Employee values("+id+ ", '"+name+"',"+salary+")");
+
+System.out.println(name + " record inserted");
+
+*************************************************************************************************
+
+6] Prepared Statement
+
+
+ PreparedStatement pst = con.prepareStatement("insert into Employee values(?,?,?)");
+
+
+                     // taking values from keyboard
+BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+System.out.println("Enter Employee ID:");
+int id = Integer.parseInt(br.readLine( ) );
+
+System.out.println("Enter Employee Name:");
+String name = br.readLine( );
+
+System.out.println("Enter Employee Salary:");
+double salary = Double.parseDouble(br.readLine( ) );
+
+//The values are stored in local varables, id, name and salary
+
+pst.setInt(1, id);
+pst.setString(2, name);
+pst.setDouble(3, salary);
+
+pst.executeUpdate( );
+
+System.out.println(name + " Record is inserted");
+*************************************************************************************************
+
+7] DELETE RECORD
+
+Statement stmt = con.createStatement();
+
+    int x = stmt.executeUpdate("delete Employee where empid >="+ id);
+
+      System.out.println(id + " record is deleted");
+      System.out.println(x + " records are deleted");
+***********************************************************************************************
+
+
+8] UPDATE RECORD
+
+    // taking id from command-line
+int id = Integer.parseInt(args[0]);
+
+ResultSet res = stmt.executeQuery("select *from Employee where empid="+id);
+
+// to move the record pointer to first record(or the only record)
+
+res.next( );
+                          // to get employee name and salary
+int eid = res.getInt(1);
+String name = res.getString(2);
+double oldsalary = res.getDouble(3);
+	        
+                   // update the salary by Rs.500
+stmt.executeUpdate("update Employee set empsal=empsal+500 where empid="+id);
+
+// again get fresh res object which includes new salary
+
+res = stmt.executeQuery("select *from Employee where empid="+id);
+
+                   // read new salary
+res.next( );
+double newsalary = res.getDouble(3);
+
+          // print all the particulars
+System.out.println("Employee ID: " + eid);
+System.out.println("Employee Name: " + name);
+System.out.println("Employee Old Salary Rs." + oldsalary);
+System.out.println("Employee New Salary Rs." + newsalary);
+System.out.println("Increase of Salary Rs." + (newsalary-oldsalary));
+
+************************************************************************************************
+
+9]show records
+
+public void showRecords() throws SQLException {
+		ResultSet rs=stmt.executeQuery("select *from jdbc");
+		while(rs.next()) {
+			System.out.println(rs.getInt(1)+" "+rs.getString(2)+" "+rs.getString(3));
+   }
+}
+********************************************************************************************************
+		
+public void showRecords() throws SQLException {
+        ArrayList columnNames = new ArrayList();
+        ArrayList data = new ArrayList();
+		ResultSet rs=stmt.executeQuery("select * from employee");
+//		while(rs.next()) {
+//			System.out.println(rs.getInt(1)+" "+rs.getString(2)+" "+rs.getString(3));
+//		}
+	
+		ResultSetMetaData md = rs.getMetaData();
+        int columns = md.getColumnCount();
+        //  Get column names
+        for (int i = 1; i <= columns; i++)
+        {
+            columnNames.add( md.getColumnName(i) );
+        }
+        //  Get row data
+        while (rs.next())
+        {
+            ArrayList row = new ArrayList(columns);
+
+            for (int i = 1; i <= columns; i++)
+            {
+                row.add( rs.getObject(i));
+            }
+            System.out.println(row);
+//            data.add(row);
+        }
+	}
+
+***************************************************************************************			
+
+String url = “jdbc:odbc:MyDataSource”
+Connection con = DriverManager.getConnection( url);
+Statement stmt = con.createStatement();
+String  sql = “SELECT Last_Name FROM EMPLOYEES”;
+ResultSet rs = stmt.executeQuery(sql);
+
+while(rs.next())
+{         System.out.println(rs.getString(“Last_Name”));
+}
+***********************************************************************************
+
+JDBC( executing DML statement)
+
+String url = “jdbc:odbc:MyDataSource”
+Connection con = DriverManager.getConnection( url);
+Statement stmt = con.createStatement();
+String sql=“insert into employee(empno, empname,designation,salary)  
+                        values(5,'rrr','manager',11000)";
+int updateRowCount=stmt.executeUpdate(sql);
+**************************************************************************************
+
+JDBC(Parameterised SQL)
+
+
+String SQL = “select * from Employees where First_Name=?”;
+
+PreparedStatement pstat = con.prepareStatement(sql);
+
+pstat.setString(1, “John”);
+
+ResultSet rs = pstat.executeQuery();
+
+pstat.clearParameters();
+
+
+************************************************************************************
+
+create table emp(emp_id int primary key,emp_name varchar(20),salary decimal(10,2));
+insert into emp values(101,"Ansh",20000);
+insert into emp values(102,"Danish",16000);
+insert into emp values(103,"Priya",30000);
+
+
+
+drop procedure if exists updateEmpSalary;
+DELIMITER $$
+CREATE PROCEDURE updateEmpSalary(IN id INT,IN incRate DECIMAL(4,2))
+BEGIN
+UPDATE emp 
+   SET salary = salary*(1+incRate)
+   WHERE emp_id=id;
+END$$ 
+DELIMITER ;
+
+
+select * from emp;
+
+************************************************************************************************
+
+package com.training.org;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class StoreProcedureExample {
+	public static void main(String[] args) {
+
+		 	Connection con=null;
+	        try
+	        {
+	            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/training","shital","shital@123");
+	            CallableStatement cs=con.prepareCall("{call updateEmpSalary(?,?)}");
+	            cs.setInt(1,102);
+	            cs.setInt(2,1);
+	            cs.executeUpdate();
+	            System.out.println("Salary Updated successfully....");
+	        }
+	        catch(Exception e) {
+	        	System.out.println(e.getMessage());
+	        }
+	}	
+}
+***************************************************************************************************************
+
+DROP PROCEDURE IF EXISTS countEmp;
+DELIMITER $$
+CREATE PROCEDURE countEmp (OUT count INT)
+BEGIN
+DECLARE id INT;
+   DECLARE name VARCHAR(20);
+   DECLARE salary DECIMAL(10,4);
+   
+DECLARE finished INT DEFAULT 0;
+   DECLARE c CURSOR FOR SELECT * FROM employee;
+   DECLARE CONTINUE HANDLER FOR NOT FOUND
+   BEGIN
+ SET finished=1;
+END;
+SET count=0;
+   OPEN c;
+   l:LOOP
+ FETCH c INTO id,name,salary;
+       IF finished=1 THEN
+  LEAVE l;
+ END IF;
+       SET count=count+1;
+END LOOP;
+   CLOSE c;
+END$$
+DELIMITER ;
+
+CALL countEmp(@count);
+select @count;
+
+****************************************************************************************
+
+incCounter.sql
+DROP PROCEDURE IF EXISTS incCounter;
+DELIMITER $$
+CREATE PROCEDURE incCounter(INOUT counter INT)
+BEGIN
+SET counter=counter+1;
+END$$
+DELIMITER ;
+********************************************************************
+DELIMITER $$
+CREATE FUNCTION isPrime(x INT) RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+DECLARE n INT DEFAULT 2;
+   loop1:WHILE n<=SQRT(x) DO
+ IF x%n=0 THEN
+  RETURN FALSE;
+ END IF;
+       SET n=n+1;
+END WHILE;
+   RETURN TRUE;
+END$$
+DELIMITER ;
+**************************************************
+code for calling function
+CallableStatement cs=con.prepareCall("{?=call isPrime(?)}");
+	            cs.registerOutParameter(1, Types.BOOLEAN);
+	            cs.setInt(2,6);
+	            cs.execute();
+	            System.out.println("Result : "+cs.getInt(1));
+
+
+*****************************************************************************
+
+DELIMITER $$
+-- CREATE FUNCTION isPrime(x INT) RETURNS BOOLEAN
+CREATE FUNCTION isPrime(x INT) RETURNS varchar(40)
+DETERMINISTIC
+BEGIN
+DECLARE n INT DEFAULT 2;
+   loop1:WHILE n<=SQRT(x) DO
+ IF x%n=0 THEN
+  RETURN FALSE;
+ END IF;
+       SET n=n+1;
+END WHILE;
+   RETURN TRUE;
+END$$
+DELIMITER ;
+drop function IF EXISTS isPrime;
+****************************************************************************************
+
+package com.training.org;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Types;
+
+public class StoreProcedureExample {
+	public static void main(String[] args) throws SQLException {
+
+		 	Connection con=null;
+	        try
+	        {
+	            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/training","shital","shital@123");
+//	            CallableStatement cs=con.prepareCall("{call updateEmpSalary(?,?)}");
+//	            cs.setInt(1,102);
+//	            cs.setInt(2,1);
+//	            cs.executeUpdate();
+//	            System.out.println("Salary Updated successfully....");
+	            
+	            
+//	            CallableStatement cs=con.prepareCall("{call countEmp(?)}");
+//	            cs.registerOutParameter(1, Types.INTEGER);
+//	            cs.execute();
+//	            System.out.println("Number of employees : "+cs.getInt(1));
+	            
+//	            
+//
+//	            CallableStatement cs=con.prepareCall("{call incCounter(?)}");
+//	            cs.registerOutParameter(1, Types.INTEGER);
+//	            cs.setInt(1,3);
+//	            cs.execute();
+//	            System.out.println("Counter : "+cs.getInt(1));
+	            
+	            
+	            
+	            CallableStatement cs=con.prepareCall("{?=call isPrime(?)}");
+	            cs.registerOutParameter(1, Types.CHAR);
+	            cs.setInt(2,6);
+	            cs.execute();
+	            System.out.println("Result : "+cs.getString(1));
+
+
+
+	        } 
+	        catch(Exception e) {
+	        	System.out.println(e.getMessage());
+	        }
+	        finally {
+	        	con.close();
+	        }
+	}	
+}

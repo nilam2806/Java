@@ -1,0 +1,34 @@
+class name with Pascal case{
+
+	Member variables are private and camel case 
+	
+	default constructor as public 
+	parameterised contructor as public
+
+	setters as public and camel case 
+	getters as public and camel case 
+	
+	toString as public and camel case 
+	Behaviours as public and camel case 
+
+}
+
+/*public void showComlexValues() {
+		System.out.println("complex values are"+real+" "+imag);
+	}
+	public static void main(String [] args) {
+		Complex c1=new Complex();
+		c1.showComlexValues();
+		//System.out.println(c1);
+		
+		
+		for(int i=0; i<10; i++) {
+			System.out.println("I"+i);
+		}
+	}*/
+
+https://github.com/SaiemPathan/SQL_Training/tree/master
+https://github.com/VipulChaudhari23/L1_MySQL
+https://github.com/VipulChaudhari23/L1_JavaPractice.git
+https://github.com/MrunaliKale/MYSQL
+https://github.com/MrunaliKale/JAVA
