@@ -1,0 +1,2013 @@
+package com.training.org;
+
+class ThreadExample extends Thread{
+	public void run() {
+		System.out.println("Run method is called from ThreadExample class "+currentThread().getId());
+	}
+}
+
+
+public class SingleThreadExample {
+	public static void main(String[] args) {
+	       ThreadExample th=new ThreadExample();
+	       th.start();
+	}
+}
+
+******************************************************************************
+
+
+package com.training.org;
+
+class ThreadExample extends Thread{
+	private int sleepTime;
+	// PrintThread constructor assigns name to thread 
+	// by calling superclass Thread constructor
+	public ThreadExample(String name){
+		super(name);
+		// sleep between 0 and 5 seconds
+		sleepTime = (int) ( Math.random() * 5000 );
+		// display name and sleepTime
+		System.err.println( 
+				"Name: " + getName() + ";  sleep: " + sleepTime );
+	}
+	// control thread's execution
+	public void run()
+	{
+		// put thread to sleep for a random interval
+		try {
+			System.err.println( getName() + " going to sleep" );
+			// put thread to sleep
+			Thread.sleep( sleepTime );
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+
+}
+
+public class SingleThreadExample {
+	public static void main(String[] args) {
+		ThreadExample th1=new ThreadExample("Thread1");
+		ThreadExample th2=new ThreadExample("Thread2");
+		ThreadExample th3=new ThreadExample("Thread3");
+		
+
+		System.out.println("Starting Threads....");
+		th1.start();
+		th2.start();
+		th3.start();
+		
+	}
+}
+
+*****************************************************************************************
+
+package com.training.org;
+
+class ThreadExample extends Thread{
+	private int sleepTime;
+	// PrintThread constructor assigns name to thread 
+	// by calling superclass Thread constructor
+	public ThreadExample(String name){
+		super(name);
+		// sleep between 0 and 5 seconds
+		sleepTime = (int) ( Math.random() * 5000 );
+		// display name and sleepTime
+		System.err.println( 
+				"Name: " + getName() + ";  sleep: " + sleepTime );
+	}
+	// control thread's execution
+	public void run()
+	{
+		// put thread to sleep for a random interval
+		try {
+			System.err.println( getName() + " going to sleep" );
+			// put thread to sleep
+			Thread.sleep( sleepTime );
+		}
+        catch ( InterruptedException interruptedException ) {
+            System.err.println( interruptedException.toString() );
+          }
+    
+         // print thread name
+         System.err.println( getName() + " done sleeping" );
+	}
+
+}
+
+public class SingleThreadExample {
+	public static void main(String[] args) {
+		ThreadExample th1=new ThreadExample("Thread1");
+		ThreadExample th2=new ThreadExample("Thread2");
+		ThreadExample th3=new ThreadExample("Thread3");
+		
+//
+		System.out.println("Starting Threads....");
+		th1.start();
+		th2.start();
+		th3.start();
+		
+	}
+}
+
+************************************************************************************
+        THREAD PRIORITY
+
+Each thread have a priority. Priorities are represented by a number between 1 and 10. In most cases, thread schedular schedules the threads according to their priority 
+(known as preemptive scheduling). But it is not guaranteed because it depends on JVM specification that which scheduling it chooses.
+3 constants defiend in Thread class:
+
+public static int MIN_PRIORITY
+public static int NORM_PRIORITY
+public static int MAX_PRIORITY
+Default priority of a thread is 5 (NORM_PRIORITY). The value of MIN_PRIORITY is 1 and the value of MAX_PRIORITY is 10.
+Example of priority of a Thread:
+
+class TestMultiPriority1 extends Thread{  
+ public void run(){  
+   System.out.println("running thread name is:"+Thread.currentThread().getName());  
+   System.out.println("running thread priority is:"+Thread.currentThread().getPriority());  
+  
+  }  
+ public static void main(String args[]){  
+  TestMultiPriority1 m1=new TestMultiPriority1();  
+  TestMultiPriority1 m2=new TestMultiPriority1();  
+  m1.setPriority(Thread.MIN_PRIORITY);  
+  m2.setPriority(Thread.MAX_PRIORITY);  
+  m1.start();  
+  m2.start();  
+   
+ }  
+} 
+
+*************************************************************************************************************************
+
+package com.training.org;
+
+class ThreadExample extends Thread{
+	private int sleepTime;
+	// PrintThread constructor assigns name to thread 
+	// by calling superclass Thread constructor
+	public ThreadExample(String name){
+		super(name);
+		// sleep between 0 and 5 seconds
+		sleepTime = (int) ( Math.random() * 5000 );
+		// display name and sleepTime
+		System.err.println( 
+				"Name: " + getName() + ";  sleep: " + sleepTime );
+	}
+	// control thread's execution
+	public void run()
+	{
+		System.err.println( getName() + " going to sleep" );
+		// put thread to sleep
+//			Thread.sleep( sleepTime );
+    
+         // print thread name
+         System.err.println( getName() + " done sleeping" );
+	}
+
+}
+
+public class SingleThreadExample {
+	public static void main(String[] args) {
+		ThreadExample th1=new ThreadExample("Thread1");
+		ThreadExample th2=new ThreadExample("Thread2");
+		ThreadExample th3=new ThreadExample("Thread3");
+		th1.setPriority(Thread.MIN_PRIORITY);
+		th2.setPriority(Thread.MAX_PRIORITY);
+		th3.setPriority(Thread.MAX_PRIORITY);
+//
+		System.out.println("Starting Threads....");
+		th1.start();
+		th2.start();
+		th3.start();
+		
+	}
+}
+*******************************************************************************************
+
+Q. Can we start a thread twice
+
+No. After starting a thread, it can never be started again. If you does so, an IllegalThreadStateException is thrown. In such case, thread will run once but for second time, it will throw exception.
+
+Let's understand it by the example given below:
+
+public class TestThreadTwice1 extends Thread{  
+ public void run(){  
+   System.out.println("running...");  
+ }  
+ public static void main(String args[]){  
+  TestThreadTwice1 t1=new TestThreadTwice1();  
+  t1.start();  
+  t1.start();  
+ }  
+} 
+
+*************************************************************************************
+
+What if we call run() method directly instead start() method?
+
+Each thread starts in a separate call stack.
+Invoking the run() method from main thread, the run() method goes onto the current call stack rather than at the beginning of a new call stack.
+class TestCallRun1 extends Thread{  
+ public void run(){  
+   System.out.println("running...");  
+ }  
+ public static void main(String args[]){  
+  TestCallRun1 t1=new TestCallRun1();  
+  t1.run();//fine, but does not start a separate call stack  
+ }  
+} 
+
+
+************************************************************************************************************************
+
+Naming Thread and Current Thread
+
+Naming Thread
+
+The Thread class provides methods to change and get the name of a thread. By default, each thread has a name i.e. thread-0, thread-1 and so on. By we can change the name 
+of the thread by using setName() method. The syntax of setName() and getName() methods are given below:
+
+public String getName(): is used to return the name of a thread.
+public void setName(String name): is used to change the name of a thread.
+Example of naming a thread
+
+class TestMultiNaming1 extends Thread{  
+  public void run(){  
+   System.out.println("running...");  
+  }  
+ public static void main(String args[]){  
+  TestMultiNaming1 t1=new TestMultiNaming1();  
+  TestMultiNaming1 t2=new TestMultiNaming1();  
+  System.out.println("Name of t1:"+t1.getName());  
+  System.out.println("Name of t2:"+t2.getName());  
+   
+  t1.start();  
+  t2.start();  
+  
+  t1.setName("Sonoo Jaiswal");  
+  System.out.println("After changing name of t1:"+t1.getName());  
+ }  
+}  
+ 
+*********************************************************************************************
+    
+         Current Thread
+
+The currentThread() method returns a reference of currently executing thread.
+
+public static Thread currentThread()  
+Example of currentThread() method
+
+class TestMultiNaming2 extends Thread{  
+ public void run(){  
+  System.out.println(Thread.currentThread().getName());  
+ }  
+ public static void main(String args[]){  
+  TestMultiNaming2 t1=new TestMultiNaming2();  
+  TestMultiNaming2 t2=new TestMultiNaming2();  
+  
+  t1.start();  
+  t2.start();  
+ }  
+} 
+
+
+***********************************************************************************************************************************************
+
+// Java Program to illustrate Rookie Approach
+// In Banking transaction system
+ 
+package com.example.org;
+
+//Class  1
+//Bank class
+//Defining the banking transaction
+class Bank {
+
+	// Initial balance $100
+	int total = 100;
+
+	// Money withdrawal method. Withdraw only if
+	// total money greater than or equal to the money
+	// requested for withdrawal
+
+	// Method
+	// To withdraw money
+	void withdrawn(String name, int withdrawal) {
+		if (total >= withdrawal) {
+			System.out.println(name + " withdrawn " + withdrawal);
+
+			total = total - withdrawal;
+			System.out.println("Balance after withdrawal: " + total);
+			// Making the thread sleep for 1 second after
+			// each withdrawal
+
+			// Try block to check for exceptions
+			try {
+
+				// Making thread t osleep for 1 second
+				Thread.sleep(1000);
+			}
+
+			// Catch block to handle the exceptions
+			catch (InterruptedException e) {
+
+				// Display the exception along with line
+				// number
+				// using printStacktrace() method
+				e.printStackTrace();
+			}
+		}
+
+		// If the money requested for withdrawal is greater
+		// than the balance then deny transaction*/
+		else {
+
+			// Print statements
+			System.out.println(name + " you can not withdraw " + withdrawal);
+
+			System.out.println("your balance is: " + total);
+
+			// Making the thread sleep for 1 second after
+			// each transaction failure
+
+			// Try block to check for exceptions
+			try {
+				Thread.sleep(1000);
+			}
+
+			catch (InterruptedException e) {
+
+				e.printStackTrace();
+			}
+		}
+	}
+
+	// Method - to deposit money
+	// Accept money whenever deposited
+	void deposit(String name, int deposit) {
+		System.out.println(name + " deposited " + deposit);
+		total = total + deposit;
+		System.out.println("Balance after deposit: " + total);
+		// Making the thread sleep for 1 second after
+		// each deposit
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+//Class 2
+//main class
+public class GFG {
+	// Main driver method
+	public static void main(String[] args) {
+		// Declaring an object of Bank class and calling the
+		// withdarwn and deposit methods with suitable
+		// parameters
+
+		// Creating object of class 1 inside main()
+		Bank obj = new Bank();
+
+		// Custom input - Transactions
+		obj.withdrawn("Arnab", 20);
+		obj.withdrawn("Monodwip", 40);
+		obj.deposit("Mukta", 35);
+		obj.withdrawn("Rinkel", 80);
+		obj.withdrawn("Shubham", 40);
+	}
+
+}
+
+
+***************************************************************************
+C:\Users\USER\Desktop\Network Java>java  GFG
+
+Arnab withdrawn 20
+Balance after withdrawal: 80
+Rinkel withdrawn 80
+Balance after withdrawal: 0
+Shubham you can not withdraw 40
+your balance is: 0
+Mukta deposited 35
+Balance after deposit: 35
+Monodwip you can not withdraw 40
+your balance is: 35
+Output(Interpreted): Rinkel failed to withdraw money.
+C:\Users\USER\Desktop\Network Java>java  GFG
+
+Arnab withdrawn 20
+Balance after withdrawal: 80
+Shubham withdrawn 40
+Balance after withdrawal: 40
+Monodwip withdrawn 40
+Balance after withdrawal: 0
+Mukta deposited 35
+Balance after deposit: 35
+Rinkel you can not withdraw 80
+your balance is: 35
+Output(Interpreted): Monodwip failed to withdraw money.
+C:\Users\USER\Desktop\Network Java>java  GFG
+
+Arnab withdrawn 20
+Balance after withdrawal: 80
+Rinkel withdrawn 80
+Balance after withdrawal: 0
+Shubham you can not withdraw 40
+your balance is: 0
+Monodwip you can not withdraw 40
+your balance is: 0
+Mukta deposited 35
+Balance after deposit: 35
+********************************************************************************************************************************
+
+// Java Program to illustrate Multithreading Approach
+// With Synchronization In Banking transaction system
+package com.example.org;
+// Class 1
+// Helper class
+class Bank1 {
+
+	// Initial balance $100
+	static int total = 100;
+
+	// Money withdrawal method. Withdraw only if total money
+	// greater than or equal to the money requested for
+	// withdrawal
+	static synchronized void withdrawn(String name,
+									int withdrawal)
+	{
+		if (total >= withdrawal) {
+			System.out.println(name + " withdrawn "
+							+ withdrawal);
+			total = total - withdrawal;
+			System.out.println("Balance after withdrawal: "
+							+ total);
+			/* Making the thread sleep for 1 second after
+				each withdrawal.*/
+			try {
+				Thread.sleep(1000);
+			}
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		// If the money requested for withdrawal is greater
+		// than the balance then deny transaction
+		else {
+			System.out.println(name
+							+ " you can not withdraw "
+							+ withdrawal);
+			System.out.println("your balance is: " + total);
+
+			// Making the thread sleep for 1 second after
+			// each transaction failure
+
+			// Try block to check for exceptions
+			try {
+
+				// Making thread to sleep for 1 second
+				Thread.sleep(1000);
+			}
+
+			// Catch bloc kto handle exceptions
+			catch (InterruptedException e) {
+
+				// Display the line number where exception
+				// occurred
+				// Using printStackTrace() method
+				e.printStackTrace();
+			}
+		}
+	}
+
+	// Method - Deposit method
+	// Accepting money whenever deposited
+	static synchronized void deposit(String name,
+									int deposit)
+	{
+		System.out.println(name + " deposited " + deposit);
+		total = total + deposit;
+		System.out.println("Balance after deposit: "
+						+ total);
+
+		// Making the thread sleep for 1 second
+		// after each deposit
+
+		// Try block to check for exceptions
+		try {
+
+			// Making thread to sleep for 1 second
+			Thread.sleep(1000);
+		}
+
+		// Catch block to handle InterruptedException
+		// exception
+		catch (InterruptedException e) {
+
+			e.printStackTrace();
+		}
+	}
+}
+
+// Method - Withdraw
+// It is called from ThreadWithdrawal class using
+// the object of Bank class passed from the main method
+class ThreadWithdrawal extends Thread {
+
+	// Attributes of this class
+	Bank object;
+	String name;
+	int dollar;
+
+	// Constructor of this class
+	ThreadWithdrawal(Bank ob, String name, int money)
+	{
+		// This keyword refers to parent class
+		this.object = ob;
+		this.name = name;
+		this.dollar = money;
+	}
+
+	// run() method for the thread
+	public void run() { object.withdrawn(name, dollar); }
+}
+
+// Deposit method is called from ThreadDeposit class using
+// the object of Bank class passed from the main method*/
+
+// Class 2
+// Helper class extending Thread class
+class ThreadDeposit extends Thread {
+
+	Bank object;
+	String name;
+	int dollar;
+
+	ThreadDeposit(Bank ob, String name, int money)
+	{
+		this.object = ob;
+		this.name = name;
+		this.dollar = money;
+	}
+
+	public void run() { object.deposit(name, dollar); }
+}
+
+// Class 3
+// Main class
+public class GFG2 {
+
+	// Main driver method
+	public static void main(String[] args)
+	{
+		// Declaring an object of Bank class and passing the
+		// object along with other parameters to the
+		// ThreadWithdrawal and ThreadDeposit class. This
+		// will be required to call withdrawn and deposit
+		// methods from those class
+
+		// Creating object of above class inside main()
+		Bank obj = new Bank();
+
+		// Creating threads
+		ThreadWithdrawal t1
+			= new ThreadWithdrawal(obj, "Arnab", 20);
+		ThreadWithdrawal t2
+			= new ThreadWithdrawal(obj, "Monodwip", 40);
+		ThreadDeposit t3
+			= new ThreadDeposit(obj, "Mukta", 35);
+		ThreadWithdrawal t4
+			= new ThreadWithdrawal(obj, "Rinkel", 80);
+		ThreadWithdrawal t5
+			= new ThreadWithdrawal(obj, "Shubham", 40);
+
+		// When a program calls the start() method, a new
+		// thread is created and then the run() method is
+		// executed
+		t1.start();
+		t2.start();
+		t3.start();
+		t4.start();
+		t5.start();
+	}
+}
+
+***************************************************************************************************************
+
+// Java Program to illustrate Multithreading Approach
+// In Banking transaction system
+package com.example.org;
+// Class 1
+// Helper class
+class Bank2 {
+
+	// Initial custom balance
+	int total = 100;
+
+	// Money withdrawal method. Withdraw only if total money
+	// greater than or equal to the money requested for
+	// withdrawal
+	void withdrawn(String name, int withdrawal)
+	{
+
+		if (total >= withdrawal) {
+			System.out.println(name + " withdrawn "
+							+ withdrawal);
+			total = total - withdrawal;
+
+			System.out.println(total);
+
+			// Making the thread sleep for 1 second after
+			// each withdrawal
+
+			// Try block to check for exceptions
+			try {
+
+				// Making thread to sleep for 1 second
+				Thread.sleep(1000);
+			}
+
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		// Else if the money requested for withdrawal is
+		// greater than the balance then deny transaction
+		else {
+
+			System.out.println(name
+							+ " you can not withdraw "
+							+ withdrawal);
+			System.out.println("your balance is: " + total);
+
+			// Making the thread sleep for 1 second after
+			// each transaction failure
+
+			try {
+				Thread.sleep(1000);
+			}
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	// Method - To deposit money
+	// Accepting money whenever deposited
+	void deposit(String name, int deposit)
+	{
+		System.out.println(name + " deposited " + deposit);
+		total = total + deposit;
+		System.out.println("Balance after deposit: "
+						+ total);
+		// Making the thread sleep for 1 second after
+		// each deposit
+
+		try {
+			Thread.sleep(1000);
+		}
+		catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+// Method - Withdraw method
+// Called from ThreadWithdrawal class
+// using the object of Bank class passed
+// from the main() method
+class ThreadWithdrawal1 extends Thread {
+
+	Bank object;
+	String name;
+	int dollar;
+
+	// Constructor of this method
+	ThreadWithdrawal1(Bank ob, String name, int money)
+	{
+		this.object = ob;
+		this.name = name;
+		this.dollar = money;
+	}
+
+	// run() method for thread
+	public void run() { object.withdrawn(name, dollar); }
+}
+// Deposit method is called from ThreadDeposit class
+// using the object of Bank class passed
+// from the main method
+class ThreadDeposit1 extends Thread {
+
+	Bank object;
+	String name;
+	int dollar;
+	ThreadDeposit1(Bank ob, String name, int money)
+	{
+		// This keyword refers t ocurrent instance itself
+		this.object = ob;
+		this.name = name;
+		this.dollar = money;
+	}
+
+	public void run() { object.deposit(name, dollar); }
+}
+
+//Class 2
+//Main class
+public class GFG3 {
+	// Main driver method
+		public static void main(String[] args)
+		{
+			// Declaring an object of Bank class and passing the
+			// object along with other parameters to the
+			// ThreadWithdrawal and ThreadDeposit class. This
+			// will be required to call withdrawn and deposit
+			// methods from those class
+
+			// Creating an object of class1
+			Bank obj = new Bank();
+
+			ThreadWithdrawal1 t1
+				= new ThreadWithdrawal1(obj, "Arnab", 20);
+			ThreadWithdrawal1 t2
+				= new ThreadWithdrawal1(obj, "Monodwip", 40);
+			ThreadDeposit1 t3
+				= new ThreadDeposit1(obj, "Mukta", 35);
+			ThreadWithdrawal1 t4
+				= new ThreadWithdrawal1(obj, "Rinkel", 80);
+			ThreadWithdrawal1 t5
+				= new ThreadWithdrawal1(obj, "Shubham", 40);
+
+			// When a program calls the start() method, a new
+			// thread is created and then the run() method is
+			// executed.
+
+			// Starting threads created above
+			t1.start();
+			t2.start();
+			t3.start();
+			t4.start();
+			t5.start();
+		}
+}
+
+
+********************************************************************************************
+
+C:\Users\USER\Desktop\LearnCoding\MultiThreading>javac GFG.java
+C:\Users\USER\Desktop\LearnCoding\MultiThreading>java GFG
+Arnab withdrawn 20
+Balance after withdrawal: 80
+
+//After 1 Second
+Monodwip withdrawn 40
+Balance after withdrawal: 40
+
+//After 1 Second
+Mukta deposited 35
+Balance after deposit: 75
+
+//After 1 Second
+Rinkel you can not withdraw 80
+your balance is: 75
+
+//After 1 Second
+Shubham withdrawn 40
+Balance after withdrawal: 35
+************************************************************************************************************************
+
+
+// Java Program to illustrate Rookie Approach
+// In Banking transaction system
+ package com.example.org;
+// Class  1
+// Bank class
+// Defining the banking transaction
+class Bank3 {
+
+	// Initial balance $100
+    int total = 100;
+ 
+    // Money withdrawal method. Withdraw only if
+    // total money greater than or equal to the money
+    // requested for withdrawal
+ 
+    // Method
+    // To withdraw money
+    void withdrawn(String name, int withdrawal)
+    {
+        if (total >= withdrawal) {
+            System.out.println(name + " withdrawn "
+                               + withdrawal);
+ 
+            total = total - withdrawal;
+            System.out.println("Balance after withdrawal: "
+                               + total);
+            // Making the thread sleep for 1 second after
+            // each withdrawal
+ 
+            // Try block to check for exceptions
+            try {
+ 
+                // Making thread t osleep for 1 second
+                Thread.sleep(1000);
+            }
+ 
+            // Catch block to handle the exceptions
+            catch (InterruptedException e) {
+ 
+                // Display the exception along with line
+                // number
+                // using printStacktrace() method
+                e.printStackTrace();
+            }
+        }
+ 
+        // If the money requested for withdrawal is greater
+        // than the balance then deny transaction*/
+        else {
+ 
+            // Print statements
+            System.out.println(name
+                               + " you can not withdraw "
+                               + withdrawal);
+ 
+            System.out.println("your balance is: " + total);
+ 
+            // Making the thread sleep for 1 second after
+            // each transaction failure
+ 
+            // Try block to check for exceptions
+            try {
+                Thread.sleep(1000);
+            }
+ 
+            catch (InterruptedException e) {
+ 
+                e.printStackTrace();
+            }
+        }
+    }
+ 
+    // Method - to deposit money
+    // Accept money whenever deposited
+    void deposit(String name, int deposit)
+    {
+        System.out.println(name + " deposited " + deposit);
+        total = total + deposit;
+        System.out.println("Balance after deposit: "
+                           + total);
+        // Making the thread sleep for 1 second after
+        // each deposit
+        try {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+//Class 2
+//Main class
+public class GFG4 {
+	// Main driver method
+    public static void main(String[] args)
+    {
+        // Declaring an object of Bank class and calling the
+        // withdarwn and deposit methods with suitable
+        // parameters
+ 
+        // Creating object of class 1 inside main()
+        Bank obj = new Bank();
+ 
+        // Custom input - Transactions
+        obj.withdrawn("Arnab", 20);
+        obj.withdrawn("Monodwip", 40);
+        obj.deposit("Mukta", 35);
+        obj.withdrawn("Rinkel", 80);
+        obj.withdrawn("Shubham", 40);
+    }
+}
+
+
+**********************************************************************************
+
+
+package com.example.org;
+// Java program to demonstrate deadlock
+	// using Main thread
+
+	// Main class
+
+public class Deadlock {
+	
+	// Main driver method
+	public static void main(String[] args) {
+
+		// Try block to check for exceptions
+		try {
+
+		// Print statement
+		System.out.println("Entering into Deadlock");
+
+		// Joining the current thread
+		Thread.currentThread().join();
+
+		// This statement will never execute
+		System.out.println("This statement will never execute");
+		}
+
+		// Catch block to handle the exceptions
+		catch (InterruptedException e) {
+
+		// Display the exception along with line number
+		// using printStackTrace() method
+		e.printStackTrace();
+		}
+	}
+	}
+
+
+********************************************************************************************************************
+
+
+ join():
+        One thread creates another thread.  The thread which creates is called as parent thread and which is getting created is called child thread.
+In a multithreaded program, the programmer should see that the child dies first and then its parent thread.  If the parent dies first, the child thread becomes an orphan thread. An 
+orphan thread behaves in different ways(gives different outputs) when executed multiple times.
+
+join() method gives guarantee that parent thread dies later than child thread.  If the parent thread comes first to die, JVM will not allow it to die (until its child dies).
+
+join() method is used to communicate between two threads(parent and its child). 
+
+join( ) method also throws a checked exception - InterruptedException.
+
+sleep( ) is the easiest way, a programmer can shift the control from one thread to another.
+*********************************************************************************************************
+
+              PROGRAM RELATED TO JOINS
+
+package com.example1.org;
+
+import java.util.Scanner;
+import java.util.*;
+
+public class InterThreadCommunication {
+
+	public static void main(String[] args) throws InterruptedException {
+
+		final PC pc = new PC();
+
+		Thread t1 = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					pc.produce();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+
+		});
+
+		Thread t2 = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					pc.consume();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
+		// Start both threads
+		t1.start();
+		t2.start();
+
+		// t1 finishes before t2
+		t1.join();
+		t2.join();
+	}
+
+	public static class PC {
+		public void produce() throws InterruptedException {
+			// Synchronized block ensure only one thread running at a time
+			synchronized (this) {
+				System.out.println("Producer thread running");
+
+				// release the lock on shared resource
+				wait();
+				System.out.println("Resumed");
+			}
+		}
+
+		public void consume() throws InterruptedException {
+			Thread.sleep(1000);
+			Scanner s = new Scanner(System.in);
+
+			synchronized (this) {
+				System.out.println("Waiting for return key");
+				s.nextLine();
+				System.out.println("Return key pressed");
+
+				notify();
+
+				Thread.sleep(2000);
+			}
+		}
+	}
+
+}
+
+
+******************************************************************************************************
+
+package com.example1.org;
+
+
+
+public class JoinExample extends Thread {
+
+	
+	    public void run( ) 
+	    {
+	      String str = this.getName();
+	      if(str.equals("First"))
+	       {
+	             for(int i=0; i<=100; i++)
+	             {
+	                  System.out.println(str + ": " + i);
+	                  try
+	                  {
+	                       Thread.sleep(1000);
+	                 }
+	                  catch(InterruptedException e)
+	                  {
+	                         e.printStackTrace( );
+	                  }
+	             }
+	         }	
+	         else if(str.equals("Second"))
+	        {
+	             for(int i=100; i >=0; i--)
+	             {
+	                  System.out.println(str + ": " + i);
+	                  try
+	                  {
+	                       Thread.sleep(1000);
+	                  }
+	                  catch(InterruptedException e)
+	                  {
+	                          e.printStackTrace( );
+	                  }
+	                }
+	         }
+	       else if(str.equals("Third"))
+	        {
+	             for(int i=200; i >=100; i--)
+	             {
+	                  System.out.println(str + ": " + i);
+	                  try
+	                  {
+	                       Thread.sleep(1000);
+	                  }
+	                  catch(InterruptedException e)
+	                  {
+	                          e.printStackTrace( );
+	                  }
+	             }
+	  }
+	       }          // close run( ) method
+
+	     
+
+		public static void main(String args[])
+	     {
+			JoinExample tr1 = new JoinExample( );
+			JoinExample tr2 = new JoinExample( );
+			JoinExample tr3 = new JoinExample( );
+	           
+	             tr1.setName("First");
+	             tr2.setName("Second");
+	             tr3.setName("Third");
+	   
+	            tr1.start( );           
+	            tr2.start( );
+	         tr3.start( );
+
+//	       try
+//	            {
+//	                tr1.join();
+//	                tr2.join();
+//	                tr3.join();
+//	            }
+//	            catch(InterruptedException e)
+//	            {
+//	                  e.printStackTrace();
+//	           }
+	    }
+
+		
+	}
+*************************************************************************************************
+
+package com.example1.org;
+
+public class JoinExample2 extends Thread
+{
+	public JoinExample2(String name) {
+		super(name);
+	}
+	public void run()
+	{
+		System.out.println("r1 "+currentThread().getName());
+		try {
+			Thread.sleep(500);
+		}
+		catch(InterruptedException ie) 
+		{ 
+			// do something
+		}
+		System.out.println("r2 "+currentThread().getName());
+	}
+	public static void main(String[] args)
+	{
+		JoinExample2 t1=new JoinExample2("Thread1");
+		JoinExample2 t2=new JoinExample2("Thread2");
+		t1.start();
+		t2.start();
+		System.out.println(t1.isAlive());
+		System.out.println(t2.isAlive());
+	}
+}
+***********************************************************************************************
+
+                     Without Join
+
+package com.example1.org;
+
+public class WithoutJoin extends Thread {
+	public WithoutJoin(String name) {
+		super(name);
+	}
+
+	public void run() {
+		System.out.println("r1 " + currentThread().getName());
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException ie) {
+			// do something
+		}
+		System.out.println("r2 " + currentThread().getName());
+	}
+
+	public static void main(String[] args) {
+		WithoutJoin t1 = new WithoutJoin("Thread1");
+		WithoutJoin t2 = new WithoutJoin("Thread2");
+		t1.start();
+		try {
+			t1.join(); // Waiting for t1 to finish
+		} catch (InterruptedException ie) {
+		}
+		t2.start();
+		System.out.println(t1.isAlive());
+		System.out.println(t2.isAlive());
+	}
+}
+
+******************************************************************************************************
+
+                        With Join
+
+package com.example1.org;
+
+import java.io.*;
+
+public class JoinMethod extends Thread {
+
+	@Override
+	public void run() {
+		for (int i = 0; i < 5; i++) {
+			try {
+				Thread.sleep(500);
+				System.out.println("Thread Start: " + Thread.currentThread().getName());
+			} catch (Exception e) {
+				System.out.println("Exception: " + e);
+			}
+		}
+	}
+
+	public static void main(String[] args) {
+		JoinMethod t1 = new JoinMethod();
+		JoinMethod t2 = new JoinMethod();
+
+		t1.start();
+		try {
+			System.out.println("Thread Ends: " + Thread.currentThread().getName());
+			t1.join();
+		} catch (Exception e) {
+			System.out.println("Exception: " + e);
+		}
+
+		t2.start();
+		try {
+			System.out.println("Thread Ends: " + Thread.currentThread().getName());
+			t2.join();
+		} catch (Exception e) {
+			System.out.println("Exception: " + e);
+		}
+	}
+}
+*********************************************************************************************************
+                  Without Join
+
+package com.example1.org;
+
+import java.io.*;
+
+public class WithoutJoinMethod extends Thread {
+
+	@Override
+	public void run() {
+		for (int i = 0; i < 5; i++) {
+			try {
+				Thread.sleep(500);
+				System.out.println("Thread Start: " + Thread.currentThread().getName());
+			} catch (Exception e) {
+				System.out.println("Exception: " + e);
+			}
+		}
+	}
+
+	public static void main(String[] args) {
+		JoinMethod t1 = new JoinMethod();
+		JoinMethod t2 = new JoinMethod();
+
+		t1.start();
+
+		t2.start();
+
+	}
+}
+
+********************************************************************************************************
+
+/*
+                            Multithreading
+
+ A thread is a part of a process. A thread lives within a process. That is, a thread cannot exist without a process. Every thread has its own execution context.  
+ One thread does not depend on another thread for it's execution. That is, every thread executes by itself without depending on other threads.
+
+ Fig: write the figure(leave 1/2 page)
+
+
+Definition:  A thread is a single sequential flow of control within a process.
+
+      We can think, a thread is a subprocess within a process.
+
+      A Java process can be divided into a number of threads and each thread can be given a different task.  The advantage is that if one thread's execution is halted for some reason,
+ we can give the processor another thread to execute.
+
+Realtime examples of multithreading: 
+
+1) we can listen to music while typing a MS-Word document.
+2) Railway reservation counters.
+
+Lightweight process: If the execution control shifts between the threads of the same process(class), it is called as lightweight process.
+
+Heavyweight process: If the execution control shifts between the threads of  different processes(classes), it is called as heavyweight process.
+
+Generally, threads are designed to be lightweight.
+
+Thread support in Java API:
+
+   Java gives support to write multithreaded programs through the classes of java.lang package. They are:
+
+          a) Thread class     
+          b) Runnable interface
+          c) Object class
+          d) ThreadGroup class
+
+Q.How many ways we can create threads in Java?
+
+     We can create threads in two ways:
+
+           a) by extending Thread class and
+           b) by implementing Runnable interface
+*/
+
+//Aim:  to create a thread by extending Thread class where the thread prints 0 to 9 with an interval of 1000 milliseconds(1second).
+
+public class Demo1 extends Thread
+{
+   public void run( )
+   {
+       for( int i = 0; i < 10; i++)
+       {
+           System.out.println(i);
+           try
+           {
+                  Thread.sleep(1000);
+           }
+           catch(InterruptedException e)
+           {
+            System.out.println("Some problem." + e);
+           }
+        }
+    }
+    public static void main(String args[])
+    {
+           Demo1 d1 = new Demo1( );
+           d1.start( );
+    }
+}
+
+          Demo1 d1 = new Demo1( );
+
+   In the above statement, d1 is an object of Demo1 class, but we can call it as a thread of Demo1 class because Demo1 class extends Thread class.  That is, a thread d1 of Demo1 class 
+  is created, but it is in inactive state.  A thread in inactive state is not eligible for microprocessor time. 
+
+          d1.start();
+
+  A thread from its inactive state can be brought to active state by calling start() on it.  start() is a method of Thread class.  Now, an active thread is eligible for microprocessor time.
+
+
+run():
+           When a thread is active, the first job it does is, it calls run() method.  When the run() method execution is over, the thread dies implicitly.  That is, thread is 
+born or created to execute the run() method.  We say, run() is the heart of the thread.  What ever code, we expect the thread to perform or execute, should be written in run() method.
+
+
+sleep(long millis):
+
+     sleep() is a static method of Thread class which makes a running thread to become inactive for the specified time in milliseconds passed as parameter(of long data type).  
+  When the sleep() time is over, the thread implicitly becomes active.
+
+  Following is the method signature of sleep() method:
+
+      public static void sleep(long milliseconds) throws InterruptedException
+
+      The sleep() method throws a checked exception called, InterruptedException.  It takes a parameter of long data type, not int.
+===============================================================
+
+Q. When to prefer Thread or Runnable?
+
+   When we extend another class to our class, then we must use Runnable interface, because Java does not support multiple inheritance.
+
+   public class Demo extends Test implements Runnable
+
+   hen we do not extend any other class, we are at liberty to use any one style; but we generally extend Thread class.
+
+   public class Demo extends Thread
+
+   Following is the signature of Thread class as defined in java.lang package:
+
+   public class Thread extends Object implements Runnable
+
+   Observe, the superclass of Thread is Runnable interface.  run() is an abstract method in the Runnable interface which is overridden by Thread class.  In Thread class, 
+  run() is a concrete method.
+
+****************************************************************************************************************************************************
+
+//Aim: to create a thread by implementing Runnable interface where thread prints 0 to 9 numbers with an interval of 1000 milliseconds(1 second).  
+( it is simply a modification of previous progarm, but using Runnable).
+
+public class Demo2 implements Runnable
+{
+   public void run( )
+   {
+       for( int i = 0; i < 10; i++)
+       {
+           System.out.println( i);
+           try
+           {
+                  Thread.sleep(1000);
+           }
+           catch(InterruptedException e)
+           {
+            System.out.println("Some problem. " + e);
+           }
+        }
+    }
+    public static void main(String args[])
+    {
+           Demo2 d2 = new Demo2( );
+           Thread t1 = new Thread(d2);
+           t1.start( );
+    }
+}
+********************************************************************************************************************************************************
+
+// Aim: to create two threads of different classes(heavyweight process) that prints 0 to 99 and 99 to 0 alternatively.
+
+class Test1 extends Thread  // prints 0 to 99
+{
+   public void run( )
+   {
+       for( int i = 0; i < 100; i++)
+       {
+           System.out.println("Test1: " + i);
+           try
+           {
+                 Thread.sleep(1000);
+           }
+           catch(InterruptedException e)
+           {
+             System.out.println("Some problem. " + e);
+           }
+        }
+    }
+}
+
+class Test2 extends Thread  // prints 99 to 0
+{
+   public void run( )
+   {
+       for( int i = 99; i >= 0; i--)
+       {
+           System.out.println("Test2: " + i);
+           try
+           {
+             Thread.sleep(1000);
+           }
+           catch(InterruptedException e)
+           {
+               System.out.println("Some problem. " + e);
+           }
+        }
+    }
+}
+
+public class TwoRuns
+{
+   public static void main(String args[])
+   {
+        Test1 t1 = new Test1( );
+        Test2 t2 = new Test2( );
+
+        t1.start( );
+        t2.start( );
+
+       try
+       {
+           t1.join( );
+           t2.join( );
+       }
+       catch(InterruptedException e)
+       {
+               System.out.println("Some problem. " + e);
+       }
+   }
+}
+****************************************************************************************************************************
+ join():
+      One thread creates another thread.  The thread which creates is called as parent thread and which is getting created is called child thread.
+
+      In a multithreaded program, the programmer should see that the child dies first and then its parent thread.  If the parent dies first, the child thread becomes an orphan thread. 
+    An orphan thread behaves in different ways(gives different outputs) when executed multiple times.
+
+      join() method gives guarantee that parent thread dies later than child thread.  If the parent thread comes first to die, JVM will not allow it to die(until its child dies).
+
+      join() method is used to communicate between two threads(parent and its child). 
+
+      join( ) method also throws a checked exception - InterruptedException.
+
+      sleep( ) is the easiest way, a programmer can shift the control from one thread to another.
+
+************************************************************************************************************************************************
+// Following is the lighter version of the previous TwoRuns.java.  Here, we create two threads of the same class which print alternatively.  It is a lightweight process, 
+because the execution control shifts between the threads of the same class(process).
+
+public class TwoRuns1 extends Thread
+{
+    public void run( ) 
+    {
+      String str = this.getName();
+      if(str.equals("First"))
+       {
+             for(int i=0; i<=100; i++)
+             {
+                  System.out.println(str + ": " + i);
+                  try
+                  {
+                       Thread.sleep(1000);
+                 }
+                  catch(InterruptedException e)
+                  {
+                         e.printStackTrace( );
+                  }
+             }
+         }	
+         else if(str.equals("Second"))
+        {
+             for(int i=100; i >=0; i--)
+             {
+                  System.out.println(str + ": " + i);
+                  try
+                  {
+                       Thread.sleep(1000);
+                  }
+                  catch(InterruptedException e)
+                  {
+                          e.printStackTrace( );
+                  }
+                }
+         }
+     }          // close run( ) method
+
+     public static void main(String args[])
+     {
+             TwoRuns1 tr1 = new TwoRuns1( );
+             TwoRuns1 tr2 = new TwoRuns1( );
+           
+             tr1.setName("First");
+             tr2.setName("Second");
+
+            tr1.start( );           
+            tr2.start( );
+            try
+            {
+                tr1.join();
+                tr2.join();
+            }
+            catch(InterruptedException e)
+            {
+                  e.printStackTrace();
+           }
+    }
+}
+
+         String str = this.getName();
+
+         In the above statement, "this" refers to the current object of the thread that is now executing the run() method.  If we want the object itself for use, 
+     we can replace the above statement as follows:
+        
+      Thread t = Thread.currentThread();
+      String str = t.getName( );
+
+          To distinguish between threads, we can give names to threads.
+
+     a) with setName(String) we can set a name to a thread.
+     b) with getName() we can retrieve the name of the thread.
+
+            Both the above are the methods of Thread class.
+
+************************************************************************************************************************************************************
+
+/*                     Priorities to Threads
+
+  Threads can be given different priorities from 1 to 10. The thread with more priority is given first preference, by the thread scheduler to allocate microprocessor time, 
+  than the thread with less priority.
+
+   There are two methods that support priorities in Thread class.
+
+          1.  with setPriority(int) method, we can set a priority to a thread.
+
+          2. with getPriority() we can retrieve the priority of a thread.
+
+          To give priorities, the Thread class defines three constant variables(called symbolic constants) as follows:
+
+     public static final int MIN_PRIORITY = 1;
+     public static final int NORM_PRIORITY = 5;
+     public static final int MAX_PRIORITY = 10;
+
+     If we do not set a priority for a thread, JVM gives a default priority of 5.
+
+      The following program explains how to use above methods and constants.
+
+*/
+
+// Aim: to give priorities to  threads and to observe that the thread with more priority executes earlier than the thread with less priority.
+
+public class PriorityDemo extends Thread
+{
+      public void run( )
+      {
+        for(int i = 0; i < 10; i++)
+        {
+        System.out.println(this.getName( ) + ": " + i);
+       }        
+     }
+     public static void main(String args[])
+     {
+        PriorityDemo pd1 = new PriorityDemo();
+        PriorityDemo pd2 = new PriorityDemo( );      
+
+                                         // setting priorities       
+pd1.setPriority(Thread.MAX_PRIORITY -2); //8
+pd2.setPriority(Thread.MIN_PRIORITY + 2); //3
+
+                         // to retrieve the priorities
+        System.out.println("More Priority is " +pd1.getPriority());                     // prints 8
+
+        System.out.println("Less Priority is " + pd2.getPriority());                    // prints 3
+
+                                // setting the names
+pd1.setName("More");     // for 8  thread 
+pd2.setName("Less");       // for 3 thread   
+
+pd2.start(); // wantedly pd2 is started first
+pd1.start();    
+   }
+}               // you can use join() method also
+
+/*
+         The above for loop can replaced as follows:
+
+ for(int i = 0; i < 10; i++)
+{
+           Thread t = Thread.currentThread();
+            String name = t.getName();
+            System.out.println(name + ": " + i);
+ }
+
+*/
+************************************************************************************************************************************************
+
+                       Life Cycle of Thread
+
+
+   Different states in which a thread exist between its object creation and object garbage collection is called the  life cycle  of thread.
+
+     The states involved are:
+
+1.	born state
+2.	runnable state
+3.	blocked state
+4.	dead state
+
+
+1. Born state
+
+    When a thread is created, we say it is in born state.  The following statement creates a thread:
+
+            Thread t1 = new Thread();
+
+    In the above statement, the thread, t1 is created, but is inactive; but still thread object occupies memory(of 4 bytes).  An inactive thread is not eligible for microprocessor time. 
+  We can compare it with the init() method of an applet.
+
+2.  Runnable state
+     
+    To make the thread active, we call start() method on the thread as follows:
+
+                 t1.start();
+
+    start() is a method of Thread class which makes the thread active and thereby it is brought from born state to runnable state.
+
+    In runnable state, the thread is active and eligible for microprocessor time.  In this state, it executes run() method.  It is the actual executing state of the thread. We can compare it with the paint() method of an applet.
+
+3.  Blocked state
+
+        A thread from runnable state can be brought to blocked state by calling sleep(time) method on it.  In blocked state, the thread is inactive.  It is a temporary state 
+in the life cycle of thread into which it can come a number of times. When the sleep(time) is over, it goes back to the runnable state implicitly. We can compare it with the stop() 
+method of an applet.
+
+4. Dead state
+  
+   The thread comes into this state when the execution of run() method is over.  A programmer can call stop() method on a running thread from any state, to terminate the thread,
+   and bring it into dead state.
+
+    In dead state, the thread object is garbage collected. It is the end of the life cycle of thread. We can compare it with the destroy() method of an applet.
+
+    Number of ways a thread can be brought from runnable state to blocked state and back:
+
+      Runnable state            Blocked state
+            to                       to
+     Blocked state             Runnable state
+
+1. sleep(time)                 Implicitly brought  
+                                back to runnable 
+                                 state when the                    
+                                sleep(time) is over.
+
+2.  suspend()                    resume()
+
+3. wait()                     notify() or  
+                              notifyAll()   
+
+4. I/O operation                Implicitly when the 
+                                 I/O operation is                
+                                  over
+
+***********************************************************************************************************************************
+/*
+                             Thread Properties
+
+     Every thread by default includes 3 properties which the programmer can set also.
+
+ 1. Every thread created will have a default name known as Thread-0 and the next one created will have Thread-1 etc.  The programmer can set a name with setName(String) method.
+
+2.  Every thread created will have a priority by default and is 5 priority. The programmer can set a priority with setPriority(int) method.
+
+3.  Every thread created belong to some thread group.  If not given a group, it placed in main group. The programmer can set a group for a thread using the constructor of a 
+    ThreadGroup class as explained in the following program.
+
+*/
+
+// Aim: to learn more methods of Thread and ThreadGroup classes
+
+ public class ThreadMethods
+ {
+  public static void main(String args[])
+  {
+    Thread t1 = new Thread( );
+
+    System.out.println(t1.getName()); 
+                                       //  prints  Thread-0
+
+    t1.setName("finance"); // setting a name
+
+    System.out.println(t1.getName());     
+                                             // prints finance
+
+    System.out.println(t1.getPriority());                                                            // default 5
+    System.out.println(t1.getThreadGroup()); 
+                                          // prints main
+           t1.setPriority(Thread.NORM_PRIORITY+2);
+  System.out.println(t1.getPriority());   // 7
+  
+        System.out.println(t1.isDaemon( ));                                                                  // false
+        t1.setDaemon(true);     
+                         // to make a daemon thread
+        System.out.println(t1.isDaemon());                                                                      // true
+         System.out.println(t1.isAlive());                                                                      // false
+        System.out.println(t1.isInterrupted());                                                             // false
+                                                // using ThreadGroup
+ThreadGroup tg = new ThreadGroup("MyGroup");
+
+        System.out.println(tg.getName());                                                              // MyGroup
+        System.out.println(tg.getParent());                                                                 // main
+
+   Thread t2 = new Thread(tg, "MyThread");
+
+  System.out.println(t2.getName());     
+                                                   // MyThread
+  System.out.println(t2.getThreadGroup());                                                     // MyGroup
+    }
+}
+
+*************************************************************************************************
+Daemon Threads:
+
+    Daemon threads are service threads which serve the process(other threads). They come into existance at the start of the process and die at the end of the process.  
+For example, the JVM includes a daemon thread called "Garbage Collector".  The job of garbage collector is to remove unwanted objects from the memory.
+
+    Daemon threads are given least prority because they must come into action when no other thread is executing(active).
+
+    We can convert a thread into a daemon thread by simply calling setDaemon(true) on the thread object as follows:
+
+                t1.setDaemon(true);
+
+    We can check the thread is daemon or not by calling isDaemon() method on the thread as follows:
+ 
+              t1.isDaemon( );
+
+     The above method returns true if the thread is daemon else false.
+
+     In Java, isXXX( ) methods are very common and they return always a boolean value and are best suitable for control structures.
+
+isAlive():
+
+      We can check a thread is alive or not by calling isAlive() method on it.  If the thread is either in runnable state or blocked state, the method returns true and 
+    if it is in born state or dead state, it returns false.
+
+isInterrupted():
+
+          This method returns true if the thread's execution is stopped for by the OS for some reason.
+
+Advantages of ThreadGroup:
+
+     By grouping the threads as one one group, we get the benefits of a group.
+
+          a) We set a common priority for all the threads.  For example, the common priority of all threads of main group is 5. 
+        b) We can stop all threads at a time.
+        c) We can not start all threads at a time.  We must start each thread separately.
+
+*******************************************************************************************************************************************************
+                         Synchronization
+
+     Generally one thread accesses one resource of data at a time. But sometimes, it is possible that multiple threads access the same data at the same time. Then there may be 
+    chances of data corruption or data inconsistency.
+
+    For example, a savings bank account is accessed by only one thread - the account holder.  But, incase of a joint savings bank account, two threads of two joint account 
+   holders may access. Then the problems arises.  The following figure explains:
+
+
+                     FIGURE (leave 1/3rd page)
+
+
+      In the above figure, at 10.02 AM two threads(of husband and wife) are accessing the resource. Now there is data corruption. For a balance of Rs.10,000 they have drawin Rs.20,000.
+
+     To avoid this data corruption, Java locks the resource when one thread is accessing, so that another thread cannnot access.  For locking, Java includes a keyword 
+    called "synchronized".  synchronized is used as an access modifier as follows.
+
+       public synchronized void update(int amt)
+       {
+               balance = balance - amount;
+               System.out.println("Hello 1");
+     }
+
+    When the above update() method is called by a thread, the JVM locks the source by calling "wait()" method on it.  When wait() method is called, no other thread is 
+   permitted to access it.  When the job of the first thread is over, it unlocks the resource by calling "notify() or notifyAll()" method.  If notify() method is called, 
+   JVM permits another waiting thread to access the source, which will call again wait() method.
+
+     Synchronization makes  a program to work slower as only one thread can access at a time. Java designers advice to use synchronization only when it is very necessary and 
+   should be applied on critical or sensitive data.
+
+    In the above method, unimportant "Hello 1" is also synchrinized.  To overcome this, Java permits, to synchronze a part of a method also called "synchronized block"
+    as follows:
+
+       public void update(int amt)
+       {
+            synchronized(this)
+            {
+               balance = balance - amount;
+           }
+           System.out.println("Hello 1");
+     }
+
+Note:  A class can never be synchronized. A method or a some statements of a method (called block) can be synchronized.       
+
+*/
+        
+/*
+                                     Deadlock
+
+     If two threads depend on each other for thier execution (which may include synchronized blocks) then a deadlock occurs.  If deadlock occurs, the execution hangs.
+
+       Deadlock is not shown by a compiler or runtime environmnt.  Programmer should avoid deadlocks in a multithreaded program.
+
+*/                  
+
+
+
+*********************************************************************************************************************
+
+
+Life Cycle of Thread
+    
+
+  Different states in which a thread exist between its object creation and object garbage collection is called the “life cycle” of thread.
+
+     The states involved are:
+
+1.	born state
+2.	runnable state
+3.	blocked state
+4.	dead state
+
+
+
+1. Born state
+
+    When a thread is created, we say it is in born state.  The following statement creates a thread:
+
+         Thread t1 = new Thread();
+
+  In the above statement, the thread, t1 is created, but is inactive; but still thread object occupies memory(of 4 bytes).  An inactive thread is not eligible for 
+microprocessor time. We can compare it with the init() method of an applet.
+
+2.  Runnable state
+     
+   To make the thread active, we call start() method on the thread as follows:
+
+            t1.start();
+
+  start() is a method of Thread class which makes the thread active and thereby it is brought from born state to runnable state.
+
+  In runnable state, the thread is active and eligible for microprocessor time.  In this state, it executes run() method.  It is the actual executing state of the thread. 
+We can compare it with the paint() method of an applet.
+
+
+3.  Blocked state
+
+   A thread from runnable state can be brought to blocked state by calling sleep(time) method on it.  In blocked state, the thread is inactive.  It is a temporary state in the 
+life cycle of thread into which it can come a number of times. When the sleep(time) is over, it goes back to the runnable state implicitly. We can compare it with the stop() method 
+of an applet.
+
+4. Dead state
+
+ The thread comes into this state when the execution of run() method is over.  A programmer can call stop() method on a running thread from any state, to terminate the thread, 
+and bring it into dead state.
+
+ In dead state, the thread object is garbage collected. It is the end of the life cycle of thread. We can compare it with the destroy() method of an applet.
+
+ Number of ways a thread can be brought from runnable state to blocked state and back:
+
+      Runnable state            Blocked state
+            to                         to
+     Blocked state             Runnable state
+
+1.    sleep(time)            Implicitly brought  
+                              back to runnable 
+                               state when the                    
+                            sleep(time) is over.
+
+2.  suspend()                  resume()
+
+3. wait()                     notify() or  
+                              notifyAll()   
+
+4. I/O operation              Implicitly when the 
+                               I/O operation is                
+                               over
+
+
+*********************************************************************************************************
+package com.training.org;
+
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class RunnableTask implements Runnable {
+    private String filename;
+    private String content;
+
+    public RunnableTask(String filename) {
+        this.filename = filename;
+        this.content = "";
+        System.out.println("Create Task to get content from " + filename);
+    }
+
+    public String getFileName() {
+        return filename;
+    }
+
+    public void run() {
+        try {
+            File file = new File("C:\\Users\\Kranti\\Desktop\\Mavrick Pune\\Example\\JAVAExamples\\LoggingExamples\\MultithreadingExample\\src\\files\\"+filename);
+
+            BufferedReader br = new BufferedReader(new FileReader(file));
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                content += line;
+            }
+
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public String getContent() { return content; }
+}
+
+**************************************************************************************************************************
+
+
+package com.training.org;
+import java.util.ArrayList;
+import java.util.List;
+
+public class RunnableExample {
+    public static void main(String[] args) {
+        // create tasks
+        List<RunnableTask> tasks = new ArrayList<>();
+        List<Thread> threads = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            RunnableTask task = new RunnableTask("test" + (i + 1) + ".txt");
+            Thread t = new Thread(task);d
+            t.start();
+            tasks.add(task);
+            threads.add(t);
+        }
+
+        // wait for threads to finish
+        try {
+            for (int i = 0; i < 5; i++) {
+                threads.get(i).join();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // collect results
+        String content = "";
+        for (int i = 0; i< 5; i++) {
+            content += tasks.get(i).getContent() + System.lineSeparator();
+        }
+
+        System.out.println("Result:");
+        System.out.println(content);
+    }
+}
+
+************************************************************************************************************
+
+
+
+
